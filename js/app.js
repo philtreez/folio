@@ -593,29 +593,38 @@ let lastValue = null; // Speichert den letzten Wert
 
 function attachOutports(device) {
     device.messageEvent.subscribe((ev) => {
+      console.log("RNBO message received:", ev);
+      
       if (ev.tag === "visu1") {
         const value = parseInt(ev.payload);
-        // (Existing visu1 logic here …)
+        // Hide all DIVs visu-*
         for (let i = 0; i < 16; i++) {
           const div = document.getElementById(`visu-${i}`);
           if (div) div.style.display = "none";
         }
+        // Show the active DIV
         const activeDiv = document.getElementById(`visu-${value}`);
         if (activeDiv) {
           activeDiv.style.display = "block";
         }
       } else if (ev.tag === "faces") {
+        console.log("Face message received:", ev.payload);
         const faceValue = parseInt(ev.payload);
         if (!isNaN(faceValue) && faceValue >= 0 && faceValue <= 9) {
           const faceDisplay = document.getElementById("face-display");
           if (faceDisplay) {
             // Each frame is 400px wide; update horizontal offset accordingly
             faceDisplay.style.backgroundPosition = `-${faceValue * 400}px 0px`;
+            console.log(`Set face-display backgroundPosition to: -${faceValue * 400}px 0px`);
+          } else {
+            console.warn("face-display element not found in DOM.");
           }
+        } else {
+          console.warn("Invalid face value received:", ev.payload);
         }
       }
     });
-  }  
+  }   
 
   function setupFaceDisplay() {
     // Look for an existing element in the DOM
