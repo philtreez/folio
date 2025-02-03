@@ -613,9 +613,10 @@ function attachOutports(device) {
         if (!isNaN(faceValue) && faceValue >= 0 && faceValue <= 9) {
           const faceDisplay = document.getElementById("face-display");
           if (faceDisplay) {
-            // Each frame is 400px wide; update horizontal offset accordingly
-            faceDisplay.style.backgroundPosition = `-${faceValue * 400}px 0px`;
-            console.log(`Set face-display backgroundPosition to: -${faceValue * 400}px 0px`);
+            // Each frame is 400px tall; update vertical offset accordingly.
+            // For faceValue 0: "0px 0px", for faceValue 1: "0px -400px", etc.
+            faceDisplay.style.backgroundPosition = `0px -${faceValue * 400}px`;
+            console.log(`Set face-display backgroundPosition to: 0px -${faceValue * 400}px`);
           } else {
             console.warn("face-display element not found in DOM.");
           }
