@@ -553,50 +553,6 @@ function loadRNBOScript(version) {
     });
 }
 
-document.querySelectorAll(".knob").forEach((knob) => {
-    let isDragging = false;
-    let lastY = 0;
-    let lastX = 0;
-    let currentAngle = -135; // Default position
-    const sensitivity = 1.0; // Adjust sensitivity (higher = faster response)
-
-    knob.addEventListener("mousedown", (event) => {
-        isDragging = true;
-        lastY = event.clientY;
-        lastX = event.clientX;
-
-        document.addEventListener("mousemove", rotateKnob);
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-            document.removeEventListener("mousemove", rotateKnob);
-        });
-    });
-
-    function rotateKnob(event) {
-        if (!isDragging) return;
-
-        let deltaY = lastY - event.clientY; // Vertical movement
-        let deltaX = event.clientX - lastX; // Horizontal movement
-
-        lastY = event.clientY;
-        lastX = event.clientX;
-
-        let changeAmount = (deltaY + deltaX) * sensitivity; // Adjusted for faster movement
-        currentAngle = Math.max(-135, Math.min(135, currentAngle + changeAmount)); // Clamp rotation
-
-        knob.style.transform = `rotate(${currentAngle}deg)`;
-
-        // Map angle to 0-20 range
-        let mappedValue = Math.round(((currentAngle + 135) / 270) * 20);
-        mappedValue = Math.max(0, Math.min(20, mappedValue));
-
-        // Ensure it only affects `sli1` to `sli16`
-        if (knob.id.startsWith("sli")) {
-            sendValueToRNBO(knob.id, mappedValue);
-        }
-    }
-});
-
 // Send values to RNBO
 function sendValueToRNBO(param, value) {
     if (device && device.parametersById.has(param)) {
@@ -607,7 +563,7 @@ function sendValueToRNBO(param, value) {
     }
 }
 
-const buttonIDs = ["hello", "play", "fbw", "rndm"];
+const buttonIDs = ["hello"];
 
 buttonIDs.forEach(id => {
     const button = document.getElementById(id);
@@ -623,59 +579,6 @@ buttonIDs.forEach(id => {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const slider = document.getElementById("dirx-slider");
-    const thumb = slider.querySelector(".slider-thumb");
-
-    const sliderWidth = slider.clientWidth;
-    const thumbWidth = thumb.clientWidth;
-    const steps = 4; // 4 states (0-3)
-    const stepSize = (sliderWidth - thumbWidth) / (steps - 1); // Calculate step positions
-
-    let isDragging = false;
-
-    function updateRNBOParam(value) {
-        if (window.device && device.parametersById.has("dirx")) {
-            sendValueToRNBO("dirx", newValue); // ✅ Use the same function for consistency
-        } else {
-            console.error("❌ RNBO parameter 'dirx' not found!");
-        }
-    }    
-
-    function moveThumb(value) {
-        let pos = value * stepSize;
-        thumb.style.left = `${pos}px`;
-    }
-
-    // Click to move
-    slider.addEventListener("click", (event) => {
-        let clickX = event.clientX - slider.getBoundingClientRect().left;
-        let newValue = Math.round(clickX / stepSize);
-        newValue = Math.max(0, Math.min(3, newValue)); // Keep within bounds
-        moveThumb(newValue);
-        sendValueToRNBO("dirx", newValue);
-    });
-
-    // Dragging
-    thumb.addEventListener("mousedown", (event) => {
-        isDragging = true;
-        event.preventDefault();
-    });
-
-    document.addEventListener("mousemove", (event) => {
-        if (!isDragging) return;
-        let moveX = event.clientX - slider.getBoundingClientRect().left;
-        let newValue = Math.round(moveX / stepSize);
-        newValue = Math.max(0, Math.min(3, newValue));
-        moveThumb(newValue);
-        sendValueToRNBO("dirx", newValue);
-    });
-
-    document.addEventListener("mouseup", () => {
-        isDragging = false;
-    });
-});
-
 document.addEventListener("DOMContentLoaded", () => {
     const textInput = document.querySelector(".user-text"); // Select input field
     const sendButton = document.querySelector(".send-button"); // Select send button
@@ -684,43 +587,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("❌ Input field or Send button not found! Check class names.");
         return;
     }
-
-    // List of all letters and special keys
-    const keys = "qwertzuiopasdfghjklyxcvbnm"; // Add missing characters if needed
-
-    // Attach event listeners to each key based on class name
-    keys.split("").forEach((letter) => {
-        const keyElement = document.querySelector(`.${letter}`);
-        if (keyElement) {
-            keyElement.addEventListener("click", () => {
-                textInput.innerText += letter.toUpperCase(); // Add the pressed letter
-            });
-        }
-    });
-
-    // Handle spacebar
-    const spaceKey = document.querySelector(".leer"); // Assuming "leer" is for space
-    if (spaceKey) {
-        spaceKey.addEventListener("click", () => {
-            textInput.innerText += " ";
-        });
-    }
-
-    // Handle enter key
-    const enterKey = document.querySelector(".ent"); // Assuming "ent" is for enter
-    if (enterKey) {
-        enterKey.addEventListener("click", () => {
-            sendButton.click(); // Simulate sending the message
-        });
-    }
-
-    // Optional: Handle physical keyboard input
-    textInput.addEventListener("keypress", (event) => {
-        if (event.key === "Enter") {
-            sendButton.click();
-            event.preventDefault();
-        }
-    });
 });
 
 let lastValue = null; // Speichert den letzten Wert
