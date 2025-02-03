@@ -232,8 +232,8 @@ class TrashyChatbot {
 let device; // Global RNBO device variable
 
 async function setup() {
-    const patchExportURL = "https://treezfolio-philtreezs-projects.vercel.app/export/patch.export.json";
-    const dependenciesURL = "https://treezfolio-philtreezs-projects.vercel.app/export/dependencies.json"; // ✅ For buffer loading
+    const patchExportURL = "https://folio-philtreezs-projects.vercel.app/export/patch.export.json";
+    const dependenciesURL = "https://folio-philtreezs-projects.vercel.app/export/dependencies.json"; // ✅ For buffer loading
 
     const WAContext = window.AudioContext || window.webkitAudioContext;
     const context = new WAContext();
@@ -727,37 +727,51 @@ let lastValue = null; // Speichert den letzten Wert
 
 function attachOutports(device) {
     device.messageEvent.subscribe((ev) => {
-        if (ev.tag !== "visu1") return;
-
+      if (ev.tag === "visu1") {
         const value = parseInt(ev.payload);
-
-        // Falls sich der Wert nicht ändert, tue nichts!
-        if (value === lastValue) return;
-        lastValue = value;
-
-        console.log("visu1 Wert empfangen:", value);
-
-        // Alle DIVs verstecken
+        // (Existing visu1 logic here …)
         for (let i = 0; i < 16; i++) {
-            const div = document.getElementById(`visu-${i}`);
-            if (div) div.style.display = "none";
+          const div = document.getElementById(`visu-${i}`);
+          if (div) div.style.display = "none";
         }
-
-        // Das aktive DIV sichtbar machen
         const activeDiv = document.getElementById(`visu-${value}`);
         if (activeDiv) {
-            activeDiv.style.display = "block";
-            console.log("Aktives Div:", activeDiv.id);
+          activeDiv.style.display = "block";
         }
+      } else if (ev.tag === "faces") {
+        const faceValue = parseInt(ev.payload);
+        if (!isNaN(faceValue) && faceValue >= 0 && faceValue <= 9) {
+          const faceDisplay = document.getElementById("face-display");
+          if (faceDisplay) {
+            // Each frame is 400px wide; update horizontal offset accordingly
+            faceDisplay.style.backgroundPosition = `-${faceValue * 400}px 0px`;
+          }
+        }
+      }
     });
-}
+  }  
+
+  function setupFaceDisplay() {
+    // Look for an existing element in the DOM
+    let faceDisplay = document.getElementById("face-display");
+    if (!faceDisplay) {
+      // If not present, create one and append it to the body.
+      faceDisplay = document.createElement("div");
+      faceDisplay.id = "face-display";
+      document.body.appendChild(faceDisplay);
+    }
+    // Set initial frame. All other styles (size, background image, etc.)
+    // should be handled in Webflow.
+    faceDisplay.style.backgroundPosition = "0px 0px";
+  }  
 
 setup();
 
 setup().then(({ device, context }) => {
     if (device) {
-        console.log("✅ RNBO Device fully initialized!");
+      console.log("✅ RNBO Device fully initialized!");
+      setupFaceDisplay();  // Initialize face-display element (styled via Webflow)
     } else {
-        console.error("❌ RNBO setup failed!");
+      console.error("❌ RNBO setup failed!");
     }
-});
+  });  
