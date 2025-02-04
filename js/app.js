@@ -623,6 +623,22 @@ function attachOutports(device) {
         } else {
           console.warn("Invalid face value received:", ev.payload);
         }
+      } else if (ev.tag === "faces2") {
+        console.log("Face2 message received:", ev.payload);
+        const face2Value = parseInt(ev.payload);
+        if (!isNaN(face2Value) && face2Value >= 0 && face2Value <= 9) {
+          const face2Display = document.getElementById("face2-display");
+          if (face2Display) {
+            // Each frame is 400px tall; update vertical offset accordingly.
+            // For faceValue 0: "0px 0px", for faceValue 1: "0px -400px", etc.
+            face2Display.style.backgroundPosition = `0px -${face2Value * 400}px`;
+            console.log(`Set face-display backgroundPosition to: 0px -${face2Value * 400}px`);
+          } else {
+            console.warn("face2-display element not found in DOM.");
+          }
+        } else {
+          console.warn("Invalid face2 value received:", ev.payload);
+        }
       }
     });
   }   
