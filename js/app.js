@@ -295,7 +295,7 @@ function setupOscilloscope(context, device, outputNode) {
         analyserNode.getByteTimeDomainData(dataArray);
 
         oscilloscopeContext.clearRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
-        oscilloscopeContext.lineWidth = 2;
+        oscilloscopeContext.lineWidth = 4;
         oscilloscopeContext.strokeStyle = "rgb(0, 0, 0)"; // Oscilloscope color
         oscilloscopeContext.beginPath();
 
@@ -315,7 +315,7 @@ function setupOscilloscope(context, device, outputNode) {
             x += sliceWidth;
         }
 
-        oscilloscopeContext.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
+        oscilloscopeContext.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 1.5);
         oscilloscopeContext.stroke();
     }
 
