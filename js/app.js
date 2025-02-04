@@ -641,12 +641,50 @@ function attachOutports(device) {
     faceDisplay.style.backgroundPosition = "0px 0px";
   }  
 
+  function initStaticChatbot(device, context) {
+    // Array of static sentences for this section:
+    const sectionBotSentences = [
+      "Welcome to our special section—here’s what we’re all about.",
+      "Our technology is revolutionizing the way we connect.",
+      "Innovation drives our passion for creating the future.",
+      "Every detail is crafted with you in mind.",
+      "Thank you for exploring this unique experience."
+    ];
+  
+    let currentSentenceIndex = 0;
+  
+    // Get references to the output container and Next button.
+    const outputEl = document.querySelector("#section-chatbot .bot-output");
+    const nextButton = document.getElementById("next-sentence");
+  
+    if (!outputEl || !nextButton) {
+      console.error("Static chatbot elements not found!");
+      return;
+    }
+  
+    // Add event listener for the Next button.
+    nextButton.addEventListener("click", async () => {
+      if (currentSentenceIndex < sectionBotSentences.length) {
+        const sentence = sectionBotSentences[currentSentenceIndex];
+        outputEl.innerText = sentence;
+        currentSentenceIndex++;
+  
+        // Process the sentence through your phoneme-dictionary code and send to RNBO.
+        await sendTextToRNBO(device, sentence, context);
+      } else {
+        nextButton.disabled = true;
+        outputEl.innerText = "End of messages.";
+      }
+    });
+  }
+  
 setup();
 
 setup().then(({ device, context }) => {
     if (device) {
       console.log("✅ RNBO Device fully initialized!");
       setupFaceDisplay();  // Initialize face-display element (styled via Webflow)
+      initStaticChatbot(device, context);  // Initialize static chatbot section
     } else {
       console.error("❌ RNBO setup failed!");
     }
