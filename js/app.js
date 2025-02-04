@@ -296,7 +296,7 @@ function setupOscilloscope(context, device, outputNode) {
 
         oscilloscopeContext.clearRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
         oscilloscopeContext.lineWidth = 2;
-        oscilloscopeContext.strokeStyle = "rgb(0, 255, 130)"; // Oscilloscope color
+        oscilloscopeContext.strokeStyle = "rgb(0, 0, 0)"; // Oscilloscope color
         oscilloscopeContext.beginPath();
 
         const sliceWidth = oscilloscopeCanvas.width / bufferLength;
