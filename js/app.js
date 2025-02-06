@@ -694,6 +694,18 @@ function attachOutports(device) {
     });
   }
   
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get a reference to the phone div and the stop element
+    const phoneDiv = document.getElementById("phone");
+    const stopVibrationBtn = document.getElementById("stop-vibration");
+  
+    // Listen for click events on the stop button/div
+    stopVibrationBtn.addEventListener("click", function() {
+      // Remove the 'vibrate' class to stop the animation
+      phoneDiv.classList.remove("vibrate");
+    });
+  });  
+
 setup();
 
 setup().then(({ device, context }) => {
