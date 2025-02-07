@@ -659,6 +659,29 @@ function attachOutports(device) {
     faceDisplay.style.backgroundPosition = "0px 0px";
   }  
 
+  function setupPushButtons() {
+    // Select all elements that have a class name that includes "push" followed by a digit.
+    const pushButtons = document.querySelectorAll("[class*='push']");
+    
+    pushButtons.forEach(button => {
+      // For each button, look through its class list for a class matching "pushX"
+      button.classList.forEach(cls => {
+        const match = cls.match(/^push(\d+)$/);
+        if (match) {
+          const num = match[1];  // This will be the number (as a string)
+          button.addEventListener("click", () => {
+            // Toggle an "active" class to indicate state (you can style this in Webflow)
+            const isActive = button.classList.toggle("active");
+            const newValue = isActive ? 1 : 0;
+            // Call your existing function to update RNBO
+            sendValueToRNBO(`push${num}`, newValue);
+          });
+        }
+      });
+    });
+  }
+  
+
   function initStaticChatbot(device, context) {
     // Array of static sentences for this section:
     const sectionBotSentences = [
@@ -713,9 +736,11 @@ setup();
 setup().then(({ device, context }) => {
     if (device) {
       console.log("✅ RNBO Device fully initialized!");
-      setupFaceDisplay();  // Initialize face-display element (styled via Webflow)
       
-      // Look for a start button (designed in Webflow with id="start-button")
+      // Initialize face-display element (its styling is handled in Webflow)
+      setupFaceDisplay();
+      
+      // Look for the start button (designed in Webflow with id="start-button")
       const startButton = document.getElementById("start-button");
       if (startButton) {
         startButton.addEventListener("click", async () => {
@@ -724,10 +749,12 @@ setup().then(({ device, context }) => {
             await context.resume();
             console.log("🔊 AudioContext resumed via start button.");
           }
-          // Wait 3 seconds then trigger the introduction.
+          // Hide the start button so it's not used again.
+          startButton.style.display = "none";
+          
+          // Wait 3 seconds, then trigger the bot's introduction.
           setTimeout(async () => {
-            // Use your chatbot's introduction (if no conversation has yet started).
-            // (getMarkovResponse("") returns one of the introduction messages.)
+            // If no conversation has yet started (chatbot.memory is empty), trigger an introduction.
             if (chatbot && chatbot.memory.length === 0) {
               const introMessage = chatbot.getMarkovResponse("");
               const chatOutput = document.querySelector(".model-text");
@@ -735,16 +762,19 @@ setup().then(({ device, context }) => {
               chatOutput.scrollTop = chatOutput.scrollHeight;
               await sendTextToRNBO(device, introMessage, context);
             }
-            // Now initialize the static chatbot (which attaches the Next button functionality).
+            // Initialize the static chatbot (attaches Next button functionality)
             initStaticChatbot(device, context);
           }, 3000);
         });
       } else {
-        // If no start button is found, initialize static chatbot immediately.
+        // If no start button is found, initialize the static chatbot immediately.
         initStaticChatbot(device, context);
       }
+      
+      // Setup push buttons for RNBO parameters "push1" to "push10".
+      setupPushButtons();
     } else {
       console.error("❌ RNBO setup failed!");
     }
-  });
+  });  
   
