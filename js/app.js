@@ -229,6 +229,7 @@ class TrashyChatbot {
     
 }
 
+let chatbot;  // global variable for the chatbot instance
 let device; // Global RNBO device variable
 
 async function setup() {
@@ -503,7 +504,8 @@ function isVowel(phonemeIndex) {
 }
 
 function setupChatbotWithTTS(device, context) {
-    const chatbot = new TrashyChatbot();
+    // Instead of declaring a local variable, assign to the global one.
+    chatbot = new TrashyChatbot();
     const chatOutput = document.querySelector(".model-text");
     const userInput = document.querySelector(".user-text");
     const sendButton = document.querySelector(".send-button");
@@ -535,18 +537,6 @@ function setupChatbotWithTTS(device, context) {
             sendButton.click();
         }
     });
-
-    // Automatically trigger the introduction 1 second after page load
-    setTimeout(async () => {
-        // Check if no conversation has started yet (i.e. memory is empty)
-        if (chatbot.memory.length === 0) {
-            // Calling getMarkovResponse with an empty string returns an introduction
-            const introMessage = chatbot.getMarkovResponse("");
-            chatOutput.innerHTML += `<p><strong>Bot:</strong> ${introMessage}</p>`;
-            scrollToBottom();
-            await sendTextToRNBO(device, introMessage, context);
-        }
-    }, 1000);
 }
 
 function loadRNBOScript(version) {
@@ -724,8 +714,37 @@ setup().then(({ device, context }) => {
     if (device) {
       console.log("✅ RNBO Device fully initialized!");
       setupFaceDisplay();  // Initialize face-display element (styled via Webflow)
-      initStaticChatbot(device, context);  // Initialize static chatbot section
+      
+      // Look for a start button (designed in Webflow with id="start-button")
+      const startButton = document.getElementById("start-button");
+      if (startButton) {
+        startButton.addEventListener("click", async () => {
+          // Resume the AudioContext if necessary.
+          if (context.state !== "running") {
+            await context.resume();
+            console.log("🔊 AudioContext resumed via start button.");
+          }
+          // Wait 3 seconds then trigger the introduction.
+          setTimeout(async () => {
+            // Use your chatbot's introduction (if no conversation has yet started).
+            // (getMarkovResponse("") returns one of the introduction messages.)
+            if (chatbot && chatbot.memory.length === 0) {
+              const introMessage = chatbot.getMarkovResponse("");
+              const chatOutput = document.querySelector(".model-text");
+              chatOutput.innerHTML += `<p><strong>Bot:</strong> ${introMessage}</p>`;
+              chatOutput.scrollTop = chatOutput.scrollHeight;
+              await sendTextToRNBO(device, introMessage, context);
+            }
+            // Now initialize the static chatbot (which attaches the Next button functionality).
+            initStaticChatbot(device, context);
+          }, 3000);
+        });
+      } else {
+        // If no start button is found, initialize static chatbot immediately.
+        initStaticChatbot(device, context);
+      }
     } else {
       console.error("❌ RNBO setup failed!");
     }
-  });  
+  });
+  
