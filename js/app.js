@@ -535,6 +535,18 @@ function setupChatbotWithTTS(device, context) {
             sendButton.click();
         }
     });
+
+    // Automatically trigger the introduction 1 second after page load
+    setTimeout(async () => {
+        // Check if no conversation has started yet (i.e. memory is empty)
+        if (chatbot.memory.length === 0) {
+            // Calling getMarkovResponse with an empty string returns an introduction
+            const introMessage = chatbot.getMarkovResponse("");
+            chatOutput.innerHTML += `<p><strong>Bot:</strong> ${introMessage}</p>`;
+            scrollToBottom();
+            await sendTextToRNBO(device, introMessage, context);
+        }
+    }, 1000);
 }
 
 function loadRNBOScript(version) {
