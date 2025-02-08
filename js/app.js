@@ -282,46 +282,109 @@ function setupOscilloscope(context, device, outputNode) {
     analyserNode.fftSize = 2048; // Resolution of Oscilloscope
     const bufferLength = analyserNode.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
-
-    device.node.connect(analyserNode); // Connect RNBO device to analyser
+  
+    // Connect the RNBO node to the analyser and then to the output.
+    device.node.connect(analyserNode);
     analyserNode.connect(outputNode);
-
-    const oscilloscopeCanvas = document.getElementById('oscilloscope');
-    oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
-    oscilloscopeCanvas.height = 63;
-    const oscilloscopeContext = oscilloscopeCanvas.getContext("2d");
-
-    function drawOscilloscope() {
-        requestAnimationFrame(drawOscilloscope);
-        analyserNode.getByteTimeDomainData(dataArray);
-
-        oscilloscopeContext.clearRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
-        oscilloscopeContext.lineWidth = 4;
-        oscilloscopeContext.strokeStyle = "rgb(0, 0, 0)"; // Oscilloscope color
-        oscilloscopeContext.beginPath();
-
-        const sliceWidth = oscilloscopeCanvas.width / bufferLength;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            const v = dataArray[i] / 128.0;
-            const y = (v * oscilloscopeCanvas.height) / 2;
-
-            if (i === 0) {
-                oscilloscopeContext.moveTo(x, y);
-            } else {
-                oscilloscopeContext.lineTo(x, y);
-            }
-
-            x += sliceWidth;
-        }
-
-        oscilloscopeContext.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 1.5);
-        oscilloscopeContext.stroke();
+  
+    // Get references to the three canvases.
+    const canvas1 = document.getElementById('oscilloscope');
+    const canvas2 = document.getElementById('oscilloscope2');
+    const canvas3 = document.getElementById('oscilloscope3');
+  
+    // Set dimensions for canvas1 (for example, as before)
+    if (canvas1) {
+      canvas1.width = canvas1.offsetWidth;
+      canvas1.height = 63;
     }
-
+    // Set different dimensions for canvas2 and canvas3 as desired:
+    if (canvas2) {
+      canvas2.width = canvas2.offsetWidth;
+      canvas2.height = 80; // Example: taller than canvas1
+    }
+    if (canvas3) {
+      canvas3.width = canvas3.offsetWidth;
+      canvas3.height = 40; // Example: shorter than canvas1
+    }
+  
+    // Get 2D contexts for each canvas.
+    const ctx1 = canvas1 ? canvas1.getContext("2d") : null;
+    const ctx2 = canvas2 ? canvas2.getContext("2d") : null;
+    const ctx3 = canvas3 ? canvas3.getContext("2d") : null;
+  
+    function drawOscilloscope() {
+      requestAnimationFrame(drawOscilloscope);
+      analyserNode.getByteTimeDomainData(dataArray);
+  
+      // Draw on canvas1 (default style)
+      if (ctx1) {
+        ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+        ctx1.lineWidth = 4;
+        ctx1.strokeStyle = "rgb(0, 0, 0)"; // Black stroke
+        ctx1.beginPath();
+        let sliceWidth1 = canvas1.width / bufferLength;
+        let x = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const v = dataArray[i] / 128.0;
+          const y = (v * canvas1.height) / 2;
+          if (i === 0) {
+            ctx1.moveTo(x, y);
+          } else {
+            ctx1.lineTo(x, y);
+          }
+          x += sliceWidth1;
+        }
+        ctx1.lineTo(canvas1.width, canvas1.height / 1.5);
+        ctx1.stroke();
+      }
+  
+      // Draw on canvas2 (different stroke color and size)
+      if (ctx2) {
+        ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+        ctx2.lineWidth = 2; // Thinner line
+        ctx2.strokeStyle = "rgb(255, 0, 0)"; // Red stroke
+        ctx2.beginPath();
+        let sliceWidth2 = canvas2.width / bufferLength;
+        x = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const v = dataArray[i] / 128.0;
+          const y = (v * canvas2.height) / 2;
+          if (i === 0) {
+            ctx2.moveTo(x, y);
+          } else {
+            ctx2.lineTo(x, y);
+          }
+          x += sliceWidth2;
+        }
+        ctx2.lineTo(canvas2.width, canvas2.height / 1.5);
+        ctx2.stroke();
+      }
+  
+      // Draw on canvas3 (another style)
+      if (ctx3) {
+        ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+        ctx3.lineWidth = 6; // Thicker line
+        ctx3.strokeStyle = "rgb(0, 0, 255)"; // Blue stroke
+        ctx3.beginPath();
+        let sliceWidth3 = canvas3.width / bufferLength;
+        x = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const v = dataArray[i] / 128.0;
+          const y = (v * canvas3.height) / 2;
+          if (i === 0) {
+            ctx3.moveTo(x, y);
+          } else {
+            ctx3.lineTo(x, y);
+          }
+          x += sliceWidth3;
+        }
+        ctx3.lineTo(canvas3.width, canvas3.height / 1.5);
+        ctx3.stroke();
+      }
+    }
+  
     drawOscilloscope();
-}
+  }  
 
 async function loadBuffers(device) {
     try {
