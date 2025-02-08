@@ -342,7 +342,7 @@ function setupOscilloscope(context, device, outputNode) {
       if (ctx2) {
         ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
         ctx2.lineWidth = 2; // Thinner line
-        ctx2.strokeStyle = "rgb(255, 0, 0)"; // Red stroke
+        ctx2.strokeStyle = "rgb(0, 255, 130)"; // Red stroke
         ctx2.beginPath();
         let sliceWidth2 = canvas2.width / bufferLength;
         x = 0;
