@@ -279,7 +279,7 @@ async function setup() {
 
 function setupOscilloscope(context, device, outputNode) {
     const analyserNode = context.createAnalyser();
-    analyserNode.fftSize = 1024; // Resolution of Oscilloscope
+    analyserNode.fftSize = 2048; // Resolution of Oscilloscope
     const bufferLength = analyserNode.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
   
@@ -793,6 +793,56 @@ function attachOutports(device) {
       phoneDiv.classList.remove("vibrate");
     });
   });  
+
+  function setupVolumeSlider() {
+    const slider = document.getElementById("volume-slider");  // The container element
+    const thumb = document.getElementById("volume-thumb");      // The draggable thumb
+  
+    if (!slider || !thumb) {
+      console.error("Volume slider elements not found!");
+      return;
+    }
+  
+    // These should be the dimensions of your assets
+    const sliderWidth = slider.offsetWidth;   // Expected to be 280px
+    const thumbWidth = thumb.offsetWidth;       // Expected to be 70px
+    // Maximum horizontal movement for the thumb
+    const maxMovement = sliderWidth - thumbWidth; // 280 - 70 = 210px
+  
+    let isDragging = false;
+  
+    // When the user presses down on the thumb, start dragging.
+    thumb.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      e.preventDefault(); // Prevent text selection and other defaults.
+    });
+  
+    // Listen for mouse movement on the document.
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      
+      // Get the slider's position on the screen.
+      const sliderRect = slider.getBoundingClientRect();
+      // Calculate the new X position of the thumb relative to the slider.
+      let newX = e.clientX - sliderRect.left - (thumbWidth / 2);
+      // Clamp the new X between 0 and maxMovement.
+      newX = Math.max(0, Math.min(newX, maxMovement));
+      
+      // Update the thumb's position.
+      thumb.style.left = newX + "px";
+      
+      // Calculate a normalized value (0 to 1) based on the thumb's position.
+      const sliderValue = newX / maxMovement;
+      
+      // Send the value to RNBO parameter "vol" using your existing function.
+      sendValueToRNBO("vol", sliderValue);
+    });
+  
+    // When the mouse is released, stop dragging.
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+  }  
 
 setup();
 
