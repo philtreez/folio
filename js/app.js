@@ -279,7 +279,7 @@ async function setup() {
 
 function setupOscilloscope(context, device, outputNode) {
     const analyserNode = context.createAnalyser();
-    analyserNode.fftSize = 2048; // Resolution of Oscilloscope
+    analyserNode.fftSize = 1024; // Resolution of Oscilloscope
     const bufferLength = analyserNode.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
   
@@ -341,7 +341,7 @@ function setupOscilloscope(context, device, outputNode) {
       // Draw on canvas2 (different stroke color and size)
       if (ctx2) {
         ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-        ctx2.lineWidth = 1; // Thinner line
+        ctx2.lineWidth = 2; // Thinner line
         ctx2.strokeStyle = "rgb(0, 255, 130)"; // Red stroke
         ctx2.beginPath();
         let sliceWidth2 = canvas2.width / bufferLength;
