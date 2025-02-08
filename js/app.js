@@ -341,13 +341,13 @@ function setupOscilloscope(context, device, outputNode) {
       // Draw on canvas2 (different stroke color and size)
       if (ctx2) {
         ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-        ctx2.lineWidth = 2; // Thinner line
+        ctx2.lineWidth = 1; // Thinner line
         ctx2.strokeStyle = "rgb(0, 255, 130)"; // Red stroke
         ctx2.beginPath();
         let sliceWidth2 = canvas2.width / bufferLength;
         x = 0;
         for (let i = 0; i < bufferLength; i++) {
-          const v = dataArray[i] / 256.0;
+          const v = dataArray[i] / 128.0;
           const y = (v * canvas2.height) / 2;
           if (i === 0) {
             ctx2.moveTo(x, y);
