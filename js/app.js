@@ -886,6 +886,7 @@ setup().then(({ device, context }) => {
       
       // Setup push buttons for RNBO parameters "push1" to "push10".
       setupPushButtons();
+      setupVolumeSlider();
     } else {
       console.error("❌ RNBO setup failed!");
     }
