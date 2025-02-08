@@ -809,6 +809,12 @@ function attachOutports(device) {
     // Maximum horizontal movement for the thumb
     const maxMovement = sliderWidth - thumbWidth; // 280 - 70 = 210px
   
+    // Set the initial value to 0.8
+    const initialValue = 0.8;
+    const initialX = maxMovement * initialValue;
+    thumb.style.left = initialX + "px";
+    sendValueToRNBO("vol", initialValue);
+  
     let isDragging = false;
   
     // When the user presses down on the thumb, start dragging.
