@@ -304,7 +304,7 @@ function setupOscilloscope(context, device, outputNode) {
     }
     if (canvas3) {
       canvas3.width = canvas3.offsetWidth;
-      canvas3.height = 40; // Example: shorter than canvas1
+      canvas3.height = 100; // Example: shorter than canvas1
     }
   
     // Get 2D contexts for each canvas.
@@ -363,8 +363,8 @@ function setupOscilloscope(context, device, outputNode) {
       // Draw on canvas3 (another style)
       if (ctx3) {
         ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
-        ctx3.lineWidth = 6; // Thicker line
-        ctx3.strokeStyle = "rgb(0, 0, 255)"; // Blue stroke
+        ctx3.lineWidth = 2; // Thicker line
+        ctx3.strokeStyle = "rgb(0, 255, 130)"; // Blue stroke
         ctx3.beginPath();
         let sliceWidth3 = canvas3.width / bufferLength;
         x = 0;
