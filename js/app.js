@@ -347,7 +347,7 @@ function setupOscilloscope(context, device, outputNode) {
         let sliceWidth2 = canvas2.width / bufferLength;
         x = 0;
         for (let i = 0; i < bufferLength; i++) {
-          const v = dataArray[i] / 512.0;
+          const v = dataArray[i] / 256.0;
           const y = (v * canvas2.height) / 2;
           if (i === 0) {
             ctx2.moveTo(x, y);
