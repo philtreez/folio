@@ -697,12 +697,28 @@ function attachOutports(device) {
             // Each frame is 400px tall; update vertical offset accordingly.
             // For faceValue 0: "0px 0px", for faceValue 1: "0px -400px", etc.
             face2Display.style.backgroundPosition = `0px -${face2Value * 400}px`;
-            console.log(`Set face-display backgroundPosition to: 0px -${face2Value * 400}px`);
+            console.log(`Set face2-display backgroundPosition to: 0px -${face2Value * 400}px`);
           } else {
             console.warn("face2-display element not found in DOM.");
           }
         } else {
           console.warn("Invalid face2 value received:", ev.payload);
+        }
+      } else if (ev.tag === "faces3") {
+        console.log("Face3 message received:", ev.payload);
+        const face3Value = parseInt(ev.payload);
+        if (!isNaN(face3Value) && face3Value >= 0 && face3Value <= 9) {
+          const face3Display = document.getElementById("face3-display");
+          if (face3Display) {
+            // Each frame is 400px tall; update vertical offset accordingly.
+            // For faceValue 0: "0px 0px", for faceValue 1: "0px -400px", etc.
+            face3Display.style.backgroundPosition = `0px -${face3Value * 400}px`;
+            console.log(`Set face3-display backgroundPosition to: 0px -${face3Value * 400}px`);
+          } else {
+            console.warn("face3-display element not found in DOM.");
+          }
+        } else {
+          console.warn("Invalid face3 value received:", ev.payload);
         }
       }
     });
