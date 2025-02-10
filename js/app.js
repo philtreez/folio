@@ -955,6 +955,17 @@ setup().then(({ device, context }) => {
         // Hide the start button so it's not used again.
         startButton.style.display = "none";
         
+        // Unhide the volume slider and any other elements that were hidden.
+        // For example, if your volume slider container is initially hidden:
+        const volumeSlider = document.getElementById("volume-slider");
+        if (volumeSlider) {
+          volumeSlider.style.display = "block"; // or remove a 'hidden' class
+        }
+        // Similarly, unhide any other elements as needed.
+        
+        // Now that the volume slider is visible, set it up.
+        setupVolumeSlider();
+        
         // Wait 3 seconds, then trigger the bot's introduction.
         setTimeout(async () => {
           // If no conversation has yet started (chatbot.memory is empty), trigger an introduction.
@@ -972,11 +983,11 @@ setup().then(({ device, context }) => {
     } else {
       // If no start button is found, initialize the static chatbot immediately.
       initStaticChatbot(device, context);
+      setupVolumeSlider();
     }
     
     // Setup push buttons for RNBO parameters "push1" to "push10".
     setupPushButtons();
-    setupVolumeSlider();
   } else {
     console.error("❌ RNBO setup failed!");
   }
