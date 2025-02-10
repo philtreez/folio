@@ -527,7 +527,7 @@ async function sendTextToRNBO(device, text, context) {
 
     // Define durations
     const vowelDuration = 140;
-    const consonantDuration = 60;
+    const consonantDuration = 90;
     const pauseDuration = 180;
 
     let timeOffset = 0;
@@ -798,6 +798,43 @@ function attachOutports(device) {
     });
   }
   
+  function initStaticChatbot2(device, context) {
+    // Array of static sentences for the new section:
+    const section2BotSentences = [
+      "Welcome to our second section—here’s some different info.",
+      "This section provides a unique perspective on our work.",
+      "Enjoy exploring new features and insights here.",
+      "Every detail in this section is crafted just for you.",
+      "Thank you for checking out this additional experience."
+    ];
+  
+    let currentSentenceIndex2 = 0;
+  
+    // Target the new output element with the class "bot-output2"
+    const outputEl2 = document.querySelector("#section-chatbot2 .bot-output2");
+    const nextButton2 = document.getElementById("next-sentence2");
+  
+    if (!outputEl2 || !nextButton2) {
+      console.error("Static chatbot elements for section 2 not found!");
+      return;
+    }
+  
+    // Attach event listener for the Next button in section 2.
+    nextButton2.addEventListener("click", async () => {
+      if (currentSentenceIndex2 < section2BotSentences.length) {
+        const sentence = section2BotSentences[currentSentenceIndex2];
+        outputEl2.innerText = sentence;
+        currentSentenceIndex2++;
+  
+        // Process the sentence using your phoneme-dictionary code and send it to RNBO.
+        await sendTextToRNBO(device, sentence, context);
+      } else {
+        nextButton2.disabled = true;
+        outputEl2.innerText = "End of messages.";
+      }
+    });
+  }  
+
   document.addEventListener("DOMContentLoaded", function() {
     // Get a reference to the phone div and the stop element
     const phoneDiv = document.getElementById("phone");
@@ -869,48 +906,43 @@ function attachOutports(device) {
 setup();
 
 setup().then(({ device, context }) => {
-    if (device) {
-      console.log("✅ RNBO Device fully initialized!");
-      
-      // Initialize face-display element (its styling is handled in Webflow)
-      setupFaceDisplay();
-      
-      // Look for the start button (designed in Webflow with id="start-button")
-      const startButton = document.getElementById("start-button");
-      if (startButton) {
-        startButton.addEventListener("click", async () => {
-          // Resume the AudioContext if necessary.
-          if (context.state !== "running") {
-            await context.resume();
-            console.log("🔊 AudioContext resumed via start button.");
+  if (device) {
+    console.log("✅ RNBO Device fully initialized!");
+    
+    // Initialize face-display element (styled via Webflow)
+    setupFaceDisplay();
+    
+    // Start button & first static chatbot logic (existing code):
+    const startButton = document.getElementById("start-button");
+    if (startButton) {
+      startButton.addEventListener("click", async () => {
+        if (context.state !== "running") {
+          await context.resume();
+          console.log("🔊 AudioContext resumed via start button.");
+        }
+        startButton.style.display = "none";
+        setTimeout(async () => {
+          if (chatbot && chatbot.memory.length === 0) {
+            const introMessage = chatbot.getMarkovResponse("");
+            const chatOutput = document.querySelector(".model-text");
+            chatOutput.innerHTML += `<p><strong>Bot:</strong> ${introMessage}</p>`;
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+            await sendTextToRNBO(device, introMessage, context);
           }
-          // Hide the start button so it's not used again.
-          startButton.style.display = "none";
-          
-          // Wait 3 seconds, then trigger the bot's introduction.
-          setTimeout(async () => {
-            // If no conversation has yet started (chatbot.memory is empty), trigger an introduction.
-            if (chatbot && chatbot.memory.length === 0) {
-              const introMessage = chatbot.getMarkovResponse("");
-              const chatOutput = document.querySelector(".model-text");
-              chatOutput.innerHTML += `<p><strong>Bot:</strong> ${introMessage}</p>`;
-              chatOutput.scrollTop = chatOutput.scrollHeight;
-              await sendTextToRNBO(device, introMessage, context);
-            }
-            // Initialize the static chatbot (attaches Next button functionality)
-            initStaticChatbot(device, context);
-          }, 3000);
-        });
-      } else {
-        // If no start button is found, initialize the static chatbot immediately.
-        initStaticChatbot(device, context);
-      }
-      
-      // Setup push buttons for RNBO parameters "push1" to "push10".
-      setupPushButtons();
-      setupVolumeSlider();
+          initStaticChatbot(device, context);
+        }, 3000);
+      });
     } else {
-      console.error("❌ RNBO setup failed!");
+      initStaticChatbot(device, context);
     }
-  });  
-  
+    
+    // Setup push buttons and volume slider
+    setupPushButtons();
+    setupVolumeSlider();
+    
+    // **Initialize the second static chatbot for the other section**
+    initStaticChatbot2(device, context);
+  } else {
+    console.error("❌ RNBO setup failed!");
+  }
+});
