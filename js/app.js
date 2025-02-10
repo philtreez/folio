@@ -910,40 +910,43 @@ setup().then(({ device, context }) => {
   if (device) {
     console.log("✅ RNBO Device fully initialized!");
     
-    setupFaceDisplay();  // Your existing initialization code.
-    setupChatbotWithTTS(device, context); // Your interactive main bot, if any.
+    // Initialize face-display element (its styling is handled in Webflow)
+    setupFaceDisplay();
+    
+    // Look for the start button (designed in Webflow with id="start-button")
+    const startButton = document.getElementById("start-button");
+    if (startButton) {
+      startButton.addEventListener("click", async () => {
+        // Resume the AudioContext if necessary.
+        if (context.state !== "running") {
+          await context.resume();
+          console.log("🔊 AudioContext resumed via start button.");
+        }
+        // Hide the start button so it's not used again.
+        startButton.style.display = "none";
+        
+        // Wait 3 seconds, then trigger the bot's introduction.
+        setTimeout(async () => {
+          // If no conversation has yet started (chatbot.memory is empty), trigger an introduction.
+          if (chatbot && chatbot.memory.length === 0) {
+            const introMessage = chatbot.getMarkovResponse("");
+            const chatOutput = document.querySelector(".model-text");
+            chatOutput.innerHTML += `<p><strong>Bot:</strong> ${introMessage}</p>`;
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+            await sendTextToRNBO(device, introMessage, context);
+          }
+          // Initialize the static chatbot (attaches Next button functionality)
+          initStaticChatbot(device, context);
+        }, 3000);
+      });
+    } else {
+      // If no start button is found, initialize the static chatbot immediately.
+      initStaticChatbot(device, context);
+    }
+    
+    // Setup push buttons for RNBO parameters "push1" to "push10".
     setupPushButtons();
     setupVolumeSlider();
-    
-    // Initialize the first static chatbot section.
-    initStaticChatbotWithStart(device, context, {
-       containerID: "section-chatbot",
-       outputSelector: ".bot-output",
-       startButtonID: "start-section1",
-       nextButtonID: "next-sentence1",
-       sentences: [
-         "Welcome to our special section—here's what we're about.",
-         "Our technology is revolutionizing the way we connect.",
-         "Innovation drives our passion for creating the future.",
-         "Every detail is crafted with you in mind.",
-         "Thank you for exploring this unique experience."
-       ]
-    });
-    
-    // Initialize the second static chatbot section.
-    initStaticChatbotWithStart(device, context, {
-       containerID: "section-chatbot2",
-       outputSelector: ".bot-output2",
-       startButtonID: "start-section2",
-       nextButtonID: "next-sentence2",
-       sentences: [
-         "Welcome to our second section—here's some different info.",
-         "This section provides a unique perspective on our work.",
-         "Enjoy exploring new features and insights here.",
-         "Every detail in this section is crafted just for you.",
-         "Thank you for checking out this additional experience."
-       ]
-    });
   } else {
     console.error("❌ RNBO setup failed!");
   }
