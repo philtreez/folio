@@ -834,7 +834,37 @@ function attachOutports(device) {
         outputEl.innerText = "End of messages.";
       }
     });
-  }  
+  }
+  
+  // Example invocation for the first static chatbot section:
+  initStaticChatbotWithStart(device, context, {
+    containerID: "section-chatbot",          // The container's ID in Webflow
+    outputSelector: ".bot-output",             // The output box's class within that container
+    startButtonID: "start-section1",           // The ID of the start button
+    nextButtonID: "next-sentence1",            // The ID of the Next button
+    sentences: [
+      "Welcome to our special section—here's what we're about.",
+      "Our technology is revolutionizing the way we connect.",
+      "Innovation drives our passion for creating the future.",
+      "Every detail is crafted with you in mind.",
+      "Thank you for exploring this unique experience."
+    ]
+  });
+  
+  // And, if you want a second static chatbot section, you could call:
+  initStaticChatbotWithStart(device, context, {
+    containerID: "section-chatbot2",
+    outputSelector: ".bot-output2",
+    startButtonID: "start-section2",
+    nextButtonID: "next-sentence2",
+    sentences: [
+      "Welcome to our second section—here's some different info.",
+      "This section provides a unique perspective on our work.",
+      "Enjoy exploring new features and insights here.",
+      "Every detail in this section is crafted just for you.",
+      "Thank you for checking out this additional experience."
+    ]
+  });  
 
   document.addEventListener("DOMContentLoaded", function() {
     // Get a reference to the phone div and the stop element
