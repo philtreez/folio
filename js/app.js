@@ -790,78 +790,48 @@ function attachOutports(device) {
       });
     });
   }
-  
 
-  function initStaticChatbot(device, context) {
-    // Array of static sentences for this section:
-    const sectionBotSentences = [
-      "Welcome to our special section—here’s what we’re all about.",
-      "Our technology is revolutionizing the way we connect.",
-      "Innovation drives our passion for creating the future.",
-      "Every detail is crafted with you in mind.",
-      "Thank you for exploring this unique experience."
-    ];
+  function initStaticChatbotWithStart(device, context, config) {
+    // config includes:
+    // - containerID: ID of the section container (e.g., "section-chatbot")
+    // - outputSelector: Selector (within that container) for the output box (e.g., ".bot-output")
+    // - startButtonID: ID for the start button (e.g., "start-section1")
+    // - nextButtonID: ID for the Next button (e.g., "next-sentence1")
+    // - sentences: Array of static sentences for that section
   
-    let currentSentenceIndex = 0;
+    const outputEl = document.querySelector(`#${config.containerID} ${config.outputSelector}`);
+    const startButton = document.getElementById(config.startButtonID);
+    const nextButton = document.getElementById(config.nextButtonID);
   
-    // Get references to the output container and Next button.
-    const outputEl = document.querySelector("#section-chatbot .bot-output");
-    const nextButton = document.getElementById("next-sentence");
-  
-    if (!outputEl || !nextButton) {
-      console.error("Static chatbot elements not found!");
+    if (!outputEl || !startButton || !nextButton) {
+      console.error("Static chatbot elements not found for config:", config);
       return;
     }
   
-    // Add event listener for the Next button.
-    nextButton.addEventListener("click", async () => {
-      if (currentSentenceIndex < sectionBotSentences.length) {
-        const sentence = sectionBotSentences[currentSentenceIndex];
-        outputEl.innerText = sentence;
-        currentSentenceIndex++;
+    let currentSentenceIndex = 0;
+    let started = false;
   
-        // Process the sentence through your phoneme-dictionary code and send to RNBO.
-        await sendTextToRNBO(device, sentence, context);
+    // Start button triggers the initial message only once.
+    startButton.addEventListener("click", async () => {
+      if (!started) {
+        started = true;
+        outputEl.innerText = config.sentences[currentSentenceIndex];
+        await sendTextToRNBO(device, config.sentences[currentSentenceIndex], context);
+        currentSentenceIndex++;
+        // Hide the start button so it doesn't trigger again.
+        startButton.style.display = "none";
+      }
+    });
+  
+    // Next button cycles through the rest of the messages.
+    nextButton.addEventListener("click", async () => {
+      if (currentSentenceIndex < config.sentences.length) {
+        outputEl.innerText = config.sentences[currentSentenceIndex];
+        await sendTextToRNBO(device, config.sentences[currentSentenceIndex], context);
+        currentSentenceIndex++;
       } else {
         nextButton.disabled = true;
         outputEl.innerText = "End of messages.";
-      }
-    });
-  }
-  
-  function initStaticChatbot2(device, context) {
-    // Array of static sentences for the new section:
-    const section2BotSentences = [
-      "Welcome to our second section—here’s some different info.",
-      "This section provides a unique perspective on our work.",
-      "Enjoy exploring new features and insights here.",
-      "Every detail in this section is crafted just for you.",
-      "Thank you for checking out this additional experience."
-    ];
-  
-    let currentSentenceIndex2 = 0;
-  
-    // Target the new output element with the class "bot-output2"
-    const outputEl2 = document.querySelector("#section-chatbot2 .bot-output2");
-    const nextButton2 = document.getElementById("next-sentence2");
-  
-    if (!outputEl2 || !nextButton2) {
-      console.error("Static chatbot elements for section 2 not found!");
-      return;
-    }
-  
-    // Attach event listener for the Next button in section 2.
-    nextButton2.addEventListener("click", async () => {
-      if (currentSentenceIndex2 < section2BotSentences.length) {
-        const sentence = section2BotSentences[currentSentenceIndex2];
-        outputEl2.innerText = sentence;
-        currentSentenceIndex2++;
-  
-        // Process the sentence using your phoneme-dictionary code and send it to RNBO.
-        await sendTextToRNBO(device, sentence, context);
-      } else {
-        nextButton2.disabled = true;
-        outputEl2.innerText = "End of messages.";
       }
     });
   }  
@@ -940,39 +910,40 @@ setup().then(({ device, context }) => {
   if (device) {
     console.log("✅ RNBO Device fully initialized!");
     
-    // Initialize face-display element (styled via Webflow)
-    setupFaceDisplay();
-    
-    // Start button & first static chatbot logic (existing code):
-    const startButton = document.getElementById("start-button");
-    if (startButton) {
-      startButton.addEventListener("click", async () => {
-        if (context.state !== "running") {
-          await context.resume();
-          console.log("🔊 AudioContext resumed via start button.");
-        }
-        startButton.style.display = "none";
-        setTimeout(async () => {
-          if (chatbot && chatbot.memory.length === 0) {
-            const introMessage = chatbot.getMarkovResponse("");
-            const chatOutput = document.querySelector(".model-text");
-            chatOutput.innerHTML += `<p><strong>Bot:</strong> ${introMessage}</p>`;
-            chatOutput.scrollTop = chatOutput.scrollHeight;
-            await sendTextToRNBO(device, introMessage, context);
-          }
-          initStaticChatbot(device, context);
-        }, 3000);
-      });
-    } else {
-      initStaticChatbot(device, context);
-    }
-    
-    // Setup push buttons and volume slider
+    setupFaceDisplay();  // Your existing initialization code.
+    setupChatbotWithTTS(device, context); // Your interactive main bot, if any.
     setupPushButtons();
     setupVolumeSlider();
     
-    // **Initialize the second static chatbot for the other section**
-    initStaticChatbot2(device, context);
+    // Initialize the first static chatbot section.
+    initStaticChatbotWithStart(device, context, {
+       containerID: "section-chatbot",
+       outputSelector: ".bot-output",
+       startButtonID: "start-section1",
+       nextButtonID: "next-sentence1",
+       sentences: [
+         "Welcome to our special section—here's what we're about.",
+         "Our technology is revolutionizing the way we connect.",
+         "Innovation drives our passion for creating the future.",
+         "Every detail is crafted with you in mind.",
+         "Thank you for exploring this unique experience."
+       ]
+    });
+    
+    // Initialize the second static chatbot section.
+    initStaticChatbotWithStart(device, context, {
+       containerID: "section-chatbot2",
+       outputSelector: ".bot-output2",
+       startButtonID: "start-section2",
+       nextButtonID: "next-sentence2",
+       sentences: [
+         "Welcome to our second section—here's some different info.",
+         "This section provides a unique perspective on our work.",
+         "Enjoy exploring new features and insights here.",
+         "Every detail in this section is crafted just for you.",
+         "Thank you for checking out this additional experience."
+       ]
+    });
   } else {
     console.error("❌ RNBO setup failed!");
   }
