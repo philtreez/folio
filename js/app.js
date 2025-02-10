@@ -759,81 +759,77 @@ function attachOutports(device) {
       });
     });
   }
-  
 
   function initStaticChatbot(device, context) {
-    // Array of static sentences for this section:
     const sectionBotSentences = [
-      "Welcome to our special section—here’s what we’re all about.",
-      "Our technology is revolutionizing the way we connect.",
-      "Innovation drives our passion for creating the future.",
-      "Every detail is crafted with you in mind.",
-      "Thank you for exploring this unique experience."
+        "Welcome to our special section—here's what we're all about.",
+        "Our technology is revolutionizing the way we connect.",
+        "Innovation drives our passion for creating the future.",
+        "Every detail is crafted with you in mind.",
+        "Thank you for exploring this unique experience."
     ];
-  
+
     let currentSentenceIndex = 0;
-  
-    // Get references to the output container and Next button.
+
+    // Use `.querySelectorAll()` to get all buttons with the class "next-sentence"
     const outputEl = document.querySelector("#section-chatbot .bot-output");
-    const nextButton = document.getElementById("next-sentence");
-  
-    if (!outputEl || !nextButton) {
-      console.error("Static chatbot elements not found!");
-      return;
+    const nextButtons = document.querySelectorAll(".next-sentence");  // ✅ Change from ID to class
+
+    if (!outputEl || nextButtons.length === 0) {
+        console.error("Static chatbot elements not found!");
+        return;
     }
-  
-    // Add event listener for the Next button.
-    nextButton.addEventListener("click", async () => {
-      if (currentSentenceIndex < sectionBotSentences.length) {
-        const sentence = sectionBotSentences[currentSentenceIndex];
-        outputEl.innerText = sentence;
-        currentSentenceIndex++;
-  
-        // Process the sentence through your phoneme-dictionary code and send to RNBO.
-        await sendTextToRNBO(device, sentence, context);
-      } else {
-        nextButton.disabled = true;
-        outputEl.innerText = "End of messages.";
-      }
+
+    nextButtons.forEach(button => {
+        button.addEventListener("click", async () => {
+            if (currentSentenceIndex < sectionBotSentences.length) {
+                const sentence = sectionBotSentences[currentSentenceIndex];
+                outputEl.innerText = sentence;
+                currentSentenceIndex++;
+
+                await sendTextToRNBO(device, sentence, context);
+            } else {
+                nextButtons.forEach(btn => btn.disabled = true);
+                outputEl.innerText = "End of messages.";
+            }
+        });
     });
-  }
-  
-  function initStaticChatbot2(device, context) {
-    // Array of static sentences for the new section:
+}
+
+function initStaticChatbot2(device, context) {
     const section2BotSentences = [
-      "Welcome to our second section—here’s some different info.",
-      "This section provides a unique perspective on our work.",
-      "Enjoy exploring new features and insights here.",
-      "Every detail in this section is crafted just for you.",
-      "Thank you for checking out this additional experience."
+        "Welcome to our second section—here's some different info.",
+        "This section provides a unique perspective on our work.",
+        "Enjoy exploring new features and insights here.",
+        "Every detail in this section is crafted just for you.",
+        "Thank you for checking out this additional experience."
     ];
-  
+
     let currentSentenceIndex2 = 0;
-  
-    // Target the new output element with the class "bot-output2"
+
     const outputEl2 = document.querySelector("#section-chatbot2 .bot-output2");
-    const nextButton2 = document.getElementById("next-sentence2");
-  
-    if (!outputEl2 || !nextButton2) {
-      console.error("Static chatbot elements for section 2 not found!");
-      return;
+    const nextButtons2 = document.querySelectorAll(".next-sentence2");  // ✅ Change from ID to class
+
+    if (!outputEl2 || nextButtons2.length === 0) {
+        console.error("Static chatbot elements for section 2 not found!");
+        return;
     }
-  
-    // Attach event listener for the Next button in section 2.
-    nextButton2.addEventListener("click", async () => {
-      if (currentSentenceIndex2 < section2BotSentences.length) {
-        const sentence = section2BotSentences[currentSentenceIndex2];
-        outputEl2.innerText = sentence;
-        currentSentenceIndex2++;
-  
-        // Process the sentence using your phoneme-dictionary code and send it to RNBO.
-        await sendTextToRNBO(device, sentence, context);
-      } else {
-        nextButton2.disabled = true;
-        outputEl2.innerText = "End of messages.";
-      }
+
+    nextButtons2.forEach(button => {
+        button.addEventListener("click", async () => {
+            if (currentSentenceIndex2 < section2BotSentences.length) {
+                const sentence = section2BotSentences[currentSentenceIndex2];
+                outputEl2.innerText = sentence;
+                currentSentenceIndex2++;
+
+                await sendTextToRNBO(device, sentence, context);
+            } else {
+                nextButtons2.forEach(btn => btn.disabled = true);
+                outputEl2.innerText = "End of messages.";
+            }
+        });
     });
-  }  
+} 
 
   document.addEventListener("DOMContentLoaded", function() {
     // Get a reference to the phone div and the stop element
