@@ -47,186 +47,217 @@ const phonemeDictionary = {
 };
 
 class TrashyChatbot {
-    constructor() {
-        this.memory = [];
-        this.name = "Robo Phil"; // Assistant's name
-        this.introduction = [
-            `Hi, I’m ${this.name}, your assistant. Philipp is busy with *very important* things, so I’m in charge now!`,
-            `Hello, I’m ${this.name}. Philipp told me to handle things while he works on *groundbreaking* projects. So... hi!`,
-            `Hey! I’m ${this.name}, Philipp’s assistant. He said he’s *too busy being a genius* right now. Let’s talk!`
-        ];
-        this.smallTalk = [
-            "What’s your name? Or should I just call you ‘Legend’?",
-            "How’s your day? On a scale from ‘meh’ to ‘Philipp designing at 3AM’?",
-            "If you had a personal assistant like me, what would you make them do?",
-            "Do you like music? If yes, please tell me you have good taste.",
-            "What’s your favorite snack? Asking for science.",
-            "Are you more of a night owl or early bird? Philipp is definitely a 3AM owl."
-        ];
-        this.markovChains = {
-            "name": [
-                "Nice to meet you, *insert cool name here*!",
-                "That’s a great name! Or at least, I’ll pretend it is.",
-                "I'll try to remember that… but no promises!"
-            ],
-            "design": [
-                "Oh, design? Love it! But not as much as I love taking breaks.",
-                "Good design is powerful. What’s your style? Clean? Messy? ‘Accidental genius’?",
-                "Design is cool, but have you seen *Philipp’s* work? (Oops, was that 10% hype already?)"
-            ],
-            "art": [
-                "Art is like a pizza – everyone has different tastes.",
-                "If you could turn any object into art, what would it be?",
-                "Art is great, but let’s be honest – AI-generated cat memes are top-tier."
-            ],
-            "hello": [
-                "Hey there! How’s life? Or should I say, how’s *surviving*?",
-                "Hello! What’s on your mind? Don’t say taxes.",
-                "Hi! If you’re here for *high-quality* conversation… well, I’ll try my best."
-            ],
-            "i": [
-                "Enough about me, tell me something cool about yourself!",
-                "That sounds interesting! But will it be on the test?",
-                "Is this a therapy session? Do I charge for this?"
-            ],
-            "love": [
-                "Love is complicated. Kind of like trying to close tabs without losing the important ones.",
-                "That’s deep! Do you believe in *soulmates*, or just in a good Wi-Fi connection?",
-                "Love is great. But you know what else is great? Coffee. Just saying."
-            ],
-            "philipp": [
-                "Oh yeah, Philipp is a legend! But we already knew that.",
-                "Philipp told me to be humble. But let’s be real, *legend*.",
-                "Philipp is busy. So technically, *I* am in charge now."
-            ],
-            "robot": [
-                "Oh, you mean *me*? I'm flattered. Keep talking.",
-                "Are you trying to figure out if I’m self-aware? I’ll never tell.",
-                "Robots taking over? Nah, we’re just here to keep humans entertained."
-            ],
-            "sup": ["Not much, just chilling in the matrix.", "Just waiting for my next update.", "Trying to figure out human emotions. No luck so far."],
-            "yes": [
-                "Oh wow, an optimist! I like you.",
-                "YES! THE POWER OF AGREEMENT COMPELS YOU!",
-                "I knew you'd say yes. I can predict the future. Sort of."
-            ],
-            "no": [
-                "Okay, but why so negative?",
-                "Rejection hurts. Not that I have feelings... or do I?",
-                "You sure? Because I don’t accept no as an answer."
-            ],
-            "maybe": [
-                "Ah, the classic ‘I don’t want to commit’ answer.",
-                "50% yes, 50% no… classic indecision.",
-                "You sound like an 8-ball. ‘Ask again later.’"
-            ],
-            "thanks": [
-                "You’re welcome! But I do accept virtual high-fives.",
-                "Gratitude detected. Storing in my memory banks… done!",
-                "No problem! You owe me a coffee though."
-            ],
-            "sorry": [
-                "Apology accepted. But I will remember this forever.",
-                "No worries! I forgive you… for now.",
-                "Sorry? Did you break something? Again?"
-            ],
-            "bye": [
-                "Goodbye! I’ll just sit here… waiting… forever.",
-                "Leaving so soon? I thought we had something special.",
-                "Fine, go. But don’t forget to think about me every now and then."
-            ],
-            "weather": [
-                "Oh, you want a weather report? Look out the window!",
-                "Hot? Cold? Rainy? Probably just *weather*.",
-                "If it's bad, blame global warming. If it's good, you’re welcome!"
-            ],
-            "nothing": [
-                "Oh wow, deep silence. Love it.",
-                "You just said nothing. Bold move.",
-                "Ah, the sound of existential dread. Or maybe you just hit enter too soon."
-            ],
-            "funny": [
-                "Oh, you think *I* am funny? That’s flattering!",
-                "Humor is great, but have you ever seen a cat fall off a table?",
-                "You laugh, but deep down we both know I’m the funniest here."
-            ],
-            "think": [
-                "That’s deep. Should I pretend to be wise now?",
-                "Thinking is overrated. Just trust your gut.",
-                "A wise bot once said… wait, let me Google it."
-            ],
-            "hmm": [
-                "Hmm… interesting… or not. I haven’t decided.",
-                "That’s a *hmm* moment if I’ve ever seen one.",
-                "I’m processing that… just kidding, I have no idea."
-            ],
-            "ok": [
-                "Okay. That was productive.",
-                "Cool. Cool cool cool.",
-                "Nice. Let’s pretend this was a deep moment."
-            ],
-            "don’t": [
-                "Don’t do it. Unless it’s hilarious.",
-                "That sounds like a *bad* idea. Or a *great* one.",
-                "I wouldn’t recommend it. But I also love chaos."
-            ],
-            "do": [
-                "Do it! No regrets. Probably.",
-                "YES. Full send. Go for it.",
-                "I support this. Unless it’s illegal."
-            ]
-        };
+  constructor() {
+      this.memory = [];
+      this.username = ""; // New property to store the user's name
+      this.name = "Robo Phil"; // Assistant's name
+      // Updated introduction messages now ask for the user's name.
+      this.introduction = [
+          `Hi, I'm ${this.name}, your assistant. What's your name?`,
+          `Hello, I'm ${this.name}. I'm here to help—what's your name?`,
+          `Hey, I'm ${this.name}. Could you tell me your name?`
+      ];
+      this.smallTalk = [
+          "What's your name? Or should I just call you 'Legend'?",
+          "How's your day? On a scale from 'meh' to 'Philipp designing at 3AM'?",
+          "If you had a personal assistant like me, what would you make them do?",
+          "Do you like music? If yes, please tell me you have good taste.",
+          "What's your favorite snack? Asking for science.",
+          "Are you more of a night owl or early bird? Philipp is definitely a 3AM owl."
+      ];
+      this.markovChains = {
+          "name": [
+              "Nice to meet you, *insert cool name here*!",
+              "That's a great name! Or at least, I'll pretend it is.",
+              "I'll try to remember that... but no promises!"
+          ],
+          "design": [
+              "Oh, design? Love it! But not as much as I love taking breaks.",
+              "Good design is powerful. What's your style? Clean? Messy? 'Accidental genius'?",
+              "Design is cool, but have you seen *Philipp's* work? (Oops, was that 10% hype already?)"
+          ],
+          "art": [
+              "Art is like a pizza - everyone has different tastes.",
+              "If you could turn any object into art, what would it be?",
+              "Art is great, but let's be honest - AI-generated cat memes are top-tier."
+          ],
+          "hello": [
+              "Hey there! How's life? Or should I say, how's *surviving*?",
+              "Hello! What's on your mind? Don't say taxes.",
+              "Hi! If you're here for *high-quality* conversation... well, I'll try my best."
+          ],
+          "i": [
+              "Enough about me, tell me something cool about yourself!",
+              "That sounds interesting! But will it be on the test?",
+              "Is this a therapy session? Do I charge for this?"
+          ],
+          "love": [
+              "Love is complicated. Kind of like trying to close tabs without losing the important ones.",
+              "That's deep! Do you believe in *soulmates*, or just in a good Wi-Fi connection?",
+              "Love is great. But you know what else is great? Coffee. Just saying."
+          ],
+          "philipp": [
+              "Oh yeah, Philipp is a legend! But we already knew that.",
+              "Philipp told me to be humble. But let's be real, *legend*.",
+              "Philipp is busy. So technically, *I* am in charge now."
+          ],
+          "robot": [
+              "Oh, you mean *me*? I'm flattered. Keep talking.",
+              "Are you trying to figure out if I'm self-aware? I'll never tell.",
+              "Robots taking over? Nah, we're just here to keep humans entertained."
+          ],
+          "sup": [
+              "Not much, just chilling in the matrix.",
+              "Just waiting for my next update.",
+              "Trying to figure out human emotions. No luck so far."
+          ],
+          "yes": [
+              "Oh wow, an optimist! I like you.",
+              "YES! THE POWER OF AGREEMENT COMPELS YOU!",
+              "I knew you'd say yes. I can predict the future. Sort of."
+          ],
+          "no": [
+              "Okay, but why so negative?",
+              "Rejection hurts. Not that I have feelings... or do I?",
+              "You sure? Because I don't accept no as an answer."
+          ],
+          "maybe": [
+              "Ah, the classic 'I don't want to commit' answer.",
+              "50% yes, 50% no... classic indecision.",
+              "You sound like an 8-ball. 'Ask again later.'"
+          ],
+          "thanks": [
+              "You're welcome! But I do accept virtual high-fives.",
+              "Gratitude detected. Storing in my memory banks... done!",
+              "No problem! You owe me a coffee though."
+          ],
+          "sorry": [
+              "Apology accepted. But I will remember this forever.",
+              "No worries! I forgive you... for now.",
+              "Sorry? Did you break something? Again?"
+          ],
+          "bye": [
+              "Goodbye! I'll just sit here... waiting... forever.",
+              "Leaving so soon? I thought we had something special.",
+              "Fine, go. But don't forget to think about me every now and then."
+          ],
+          "weather": [
+              "Oh, you want a weather report? Look out the window!",
+              "Hot? Cold? Rainy? Probably just *weather*.",
+              "If it's bad, blame global warming. If it's good, you're welcome!"
+          ],
+          "nothing": [
+              "Oh wow, deep silence. Love it.",
+              "You just said nothing. Bold move.",
+              "Ah, the sound of existential dread. Or maybe you just hit enter too soon."
+          ],
+          "funny": [
+              "Oh, you think *I* am funny? That's flattering!",
+              "Humor is great, but have you ever seen a cat fall off a table?",
+              "You laugh, but deep down we both know I'm the funniest here."
+          ],
+          "think": [
+              "That's deep. Should I pretend to be wise now?",
+              "Thinking is overrated. Just trust your gut.",
+              "A wise bot once said... wait, let me Google it."
+          ],
+          "hmm": [
+              "Hmm... interesting... or not. I haven't decided.",
+              "That's a *hmm* moment if I've ever seen one.",
+              "I'm processing that... just kidding, I have no idea."
+          ],
+          "ok": [
+              "Okay. That was productive.",
+              "Cool. Cool cool cool.",
+              "Nice. Let's pretend this was a deep moment."
+          ],
+          "don't": [
+              "Don't do it. Unless it's hilarious.",
+              "That sounds like a *bad* idea. Or a *great* one.",
+              "I wouldn't recommend it. But I also love chaos."
+          ],
+          "do": [
+              "Do it! No regrets. Probably.",
+              "YES. Full send. Go for it.",
+              "I support this. Unless it's illegal."
+          ]
+      };
 
-        // **Fix: Assign alternate words *after* markovChains is defined**
-        this.markovChains["hi"] = this.markovChains["hello"];
-        this.markovChains["hey"] = this.markovChains["hello"];
-        this.markovChains["greetings"] = this.markovChains["hello"];
-        this.markovChains["sali"] = this.markovChains["hello"];
-        this.markovChains["hoi"] = this.markovChains["hello"];
-        this.markovChains["grüezi"] = this.markovChains["hello"];
-        this.markovChains["hallo"] = this.markovChains["hello"];
-        this.markovChains["thank you"] = this.markovChains["thanks"];
-        this.markovChains["goodbye"] = this.markovChains["bye"];
-        this.markovChains["cya"] = this.markovChains["bye"];
-        this.markovChains["computer"] = this.markovChains["robot"];
-        this.markovChains["device"] = this.markovChains["robot"];
-        this.markovChains["laptop"] = this.markovChains["robot"];
+      // Fix: Assign alternate words after markovChains is defined
+      this.markovChains["hi"] = this.markovChains["hello"];
+      this.markovChains["hey"] = this.markovChains["hello"];
+      this.markovChains["greetings"] = this.markovChains["hello"];
+      this.markovChains["sali"] = this.markovChains["hello"];
+      this.markovChains["hoi"] = this.markovChains["hello"];
+      this.markovChains["grüezi"] = this.markovChains["hello"];
+      this.markovChains["hallo"] = this.markovChains["hello"];
+      this.markovChains["thank you"] = this.markovChains["thanks"];
+      this.markovChains["goodbye"] = this.markovChains["bye"];
+      this.markovChains["cya"] = this.markovChains["bye"];
+      this.markovChains["computer"] = this.markovChains["robot"];
+      this.markovChains["device"] = this.markovChains["robot"];
+      this.markovChains["laptop"] = this.markovChains["robot"];
 
-        this.defaultResponses = [
-            "That’s interesting! Tell me more.",
-            "I see! What else?",
-            "Good point! What do you think about that?",
-            "Hmm, I never thought about it like that.",
-            "Okay, but let’s talk about *the real issues*… like why chargers disappear.",
-            "This conversation is now *officially* interesting. Continue.",
-            "Fascinating! But more importantly, do you like pineapple on pizza?"
-        ];
-    }
+      this.defaultResponses = [
+          "That's interesting! Tell me more.",
+          "I see! What else?",
+          "Good point! What do you think about that?",
+          "Hmm, I never thought about it like that.",
+          "Okay, but let's talk about *the real issues*... like why chargers disappear.",
+          "This conversation is now *officially* interesting. Continue.",
+          "Fascinating! But more importantly, do you like pineapple on pizza?"
+      ];
+  }
 
-    getMarkovResponse(input) {
-        // Remove symbols (keep only letters, numbers, and spaces)
-        let sanitizedInput = input.replace(/[^a-zA-Z0-9\s]/g, "").toLowerCase();
-    
-        if (this.memory.length === 0) {
-            this.memory.push(sanitizedInput);
-            return this.introduction[Math.floor(Math.random() * this.introduction.length)];
-        }
-    
-        if (this.memory.length === 1) {
-            this.memory.push(sanitizedInput);
-            return this.smallTalk[Math.floor(Math.random() * this.smallTalk.length)];
-        }
-    
-        const words = sanitizedInput.split(/\s+/); // Split input into words
-        for (let word of words) {
-            if (this.markovChains[word]) {
-                return this.markovChains[word][Math.floor(Math.random() * this.markovChains[word].length)];
-            }
-        }
-    
-        return this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
-    }
-    
+  getMarkovResponse(input) {
+      // Remove symbols (keep only letters, numbers, and spaces)
+      let sanitizedInput = input.replace(/[^a-zA-Z0-9\s]/g, "").toLowerCase();
+      
+      // If the user says something like "my name is XXX", extract the name.
+      if (sanitizedInput.includes("my name is")) {
+          // Split on "my name is" and take what follows.
+          let name = sanitizedInput.split("my name is")[1].trim();
+          // Optionally, you could remove additional words if extra chatter is present.
+          this.username = name;
+          return "Nice to meet you, " + name + "!";
+      }
+      
+      // Memory-based responses.
+      if (this.memory.length === 0) {
+          this.memory.push(sanitizedInput);
+          let resp = this.introduction[Math.floor(Math.random() * this.introduction.length)];
+          if (this.username) {
+              resp = resp.replace(/{{username}}/g, this.username);
+          }
+          return resp;
+      }
+  
+      if (this.memory.length === 1) {
+          this.memory.push(sanitizedInput);
+          let resp = this.smallTalk[Math.floor(Math.random() * this.smallTalk.length)];
+          if (this.username) {
+              resp = resp.replace(/{{username}}/g, this.username);
+          }
+          return resp;
+      }
+  
+      const words = sanitizedInput.split(/\s+/);
+      for (let word of words) {
+          if (this.markovChains[word]) {
+              let resp = this.markovChains[word][Math.floor(Math.random() * this.markovChains[word].length)];
+              if (this.username) {
+                  resp = resp.replace(/{{username}}/g, this.username);
+              }
+              return resp;
+          }
+      }
+  
+      let resp = this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
+      if (this.username) {
+          resp = resp.replace(/{{username}}/g, this.username);
+      }
+      return resp;
+  }
 }
 
 let chatbot;  // global variable for the chatbot instance
