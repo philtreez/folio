@@ -223,29 +223,35 @@ class TrashyChatbot {
     getMarkovResponse(input) {
       let sanitizedInput = input.replace(/[^a-zA-Z0-9\s]/g, "").toLowerCase();
       let words = sanitizedInput.split(/\s+/);
-
+  
+      // **Ensure the introduction happens first**
+      if (this.memory.length === 0) {
+          this.memory.push("intro"); // Mark that introduction was sent
+          return this.introduction[Math.floor(Math.random() * this.introduction.length)];
+      }
+  
       // If the user has no name yet, ask for it
       if (!this.userName) {
           this.userName = words[0]; // Take the first word as the name
           return this.responsesWithUserName[Math.floor(Math.random() * this.responsesWithUserName.length)].replace("{name}", this.userName);
       }
-
+  
       // Occasionally suggest checking out the CV/portfolio
       if (Math.random() < 0.25) { // 25% chance to self-promote
           return this.promos[Math.floor(Math.random() * this.promos.length)];
       }
-
+  
       // Check if there's a known word to respond to
       for (let word of words) {
           if (this.markovChains[word]) {
               return this.markovChains[word][Math.floor(Math.random() * this.markovChains[word].length)];
           }
       }
-
+  
       // Otherwise, keep things lively
       return this.funResponses[Math.floor(Math.random() * this.funResponses.length)];
   }
-}
+}  
 
 let chatbot;  // global variable for the chatbot instance
 let device; // Global RNBO device variable
