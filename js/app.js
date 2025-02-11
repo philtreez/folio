@@ -797,7 +797,7 @@ function attachOutports(device) {
                 await sendTextToRNBO(device, sentence, context);
             } else {
                 nextButtons.forEach(btn => btn.disabled = true);
-                outputEl.innerText = "End of messages.";
+                outputEl.innerText = "You have reached the final boss: sending an email to Philipp.";
             }
         });
     });
@@ -805,11 +805,16 @@ function attachOutports(device) {
 
 function initStaticChatbot2(device, context) {
     const section2BotSentences = [
-        "Welcome to our second section—here's some different info.",
-        "This section provides a unique perspective on our work.",
-        "Enjoy exploring new features and insights here.",
-        "Every detail in this section is crafted just for you.",
-        "Thank you for checking out this additional experience."
+      "Welcome to Philipp's portfolio! A collection of things that exist... and somehow ended up here.",
+      "Print, pixels, and software – like a balanced diet, but for creativity.",
+      "Ever held a beautifully printed piece of design and thought, 'Wow, this is nice'? There's a small chance Philipp made it. Or at least wishes he did.",
+      "This section contains actual projects—no 'concept art' or fake redesigns of famous brands. (Looking at you, every other portfolio.)",
+      "Some of these designs ended up in thousands of hands. Not in a creepy way, just in a 'mass printing is wild' kind of way.",
+      "Graphic design is just arranging shapes and letters until something clicks. Audio plugins are basically the same, but noisier.",
+      "Philipp made some of this stuff because he wanted it to exist. Now it does. That's how problem-solving works, right?",
+      "Some projects in here were fun, some were frustrating, and some just kind of happened. Like a good mixtape of creativity.",
+      "Is this print design? A poster? A sound effect? Who knows. Philipp probably had a reason when he made it. Probably.",
+      "Feel free to click around, admire the details, and pretend you totally understand the difference between CMYK and RGB."
     ];
 
     let currentSentenceIndex2 = 0;
@@ -832,7 +837,7 @@ function initStaticChatbot2(device, context) {
                 await sendTextToRNBO(device, sentence, context);
             } else {
                 nextButtons2.forEach(btn => btn.disabled = true);
-                outputEl2.innerText = "End of messages.";
+                outputEl2.innerText = "That’s all, folks! Unless you want to stare at it longer.";
             }
         });
     });
