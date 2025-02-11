@@ -57,12 +57,22 @@ class TrashyChatbot {
             "Hey! I’m Robo Phil, the stand-in for Philipp. Before we continue, what’s your name?"
         ];
         this.smallTalk = [
-            "What’s your name? Or should I just call you ‘Legend’?",
             "How’s your day? On a scale from ‘meh’ to ‘Philipp designing at 3AM’?",
             "If you had a personal assistant like me, what would you make them do?",
             "Do you like music? If yes, please tell me you have good taste.",
             "What’s your favorite snack? Asking for science.",
-            "Are you more of a night owl or early bird? Philipp is definitely a 3AM owl."
+        ];
+        this.responsesWithUserName = [
+            "Nice to meet you, {name}! Let’s get talking.",
+            "{name}, I like that. Now tell me something interesting!",
+            "Hey {name}, what’s on your mind?",
+            "{name}, you seem cool. But are you *portfolio-checking* cool?"
+        ];
+        this.promos = [
+            "By the way, did you check out Philipp’s CV? Might be worth a look!",
+            "Oh, and don’t miss the portfolio section. It’s full of cool stuff.",
+            "Fun fact: Philipp makes things. You should see them in the portfolio!",
+            "You’re having fun, right? Imagine how fun the CV section is. Okay, maybe not *that* fun, but still."
         ];
         this.markovChains = {
             "name": [
