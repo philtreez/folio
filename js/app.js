@@ -52,9 +52,9 @@ class TrashyChatbot {
         this.name = "Robo Phil"; // Assistant's name
         this.userName = null; // Store user's name
         this.introduction = [
-            `Hi, I’m ${this.name}, your assistant. Philipp is busy with *very important* things, so I’m in charge now!`,
-            `Hello, I’m ${this.name}. Philipp told me to handle things while he works on *groundbreaking* projects. So... hi!`,
-            `Hey! I’m ${this.name}, Philipp’s assistant. He said he’s *too busy being a genius* right now. Let’s talk!`
+            "Hi, I'm Robo Phil, your assistant. But enough about me—what’s your name?",
+            "Hello, I’m Robo Phil. Philipp is busy with *very important* things, so I’m in charge. But first—what should I call you?",
+            "Hey! I’m Robo Phil, the stand-in for Philipp. Before we continue, what’s your name?"
         ];
         this.smallTalk = [
             "What’s your name? Or should I just call you ‘Legend’?",
