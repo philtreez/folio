@@ -226,7 +226,8 @@ class TrashyChatbot {
   
       // **Ensure the introduction happens first**
       if (this.memory.length === 0) {
-          this.memory.push("intro"); // Mark that introduction was sent
+          this.memory.push("intro");
+          this.lastResponse = null; // Reset last response
           return this.introduction[Math.floor(Math.random() * this.introduction.length)];
       }
   
@@ -236,21 +237,41 @@ class TrashyChatbot {
           return this.responsesWithUserName[Math.floor(Math.random() * this.responsesWithUserName.length)].replace("{name}", this.userName);
       }
   
-      // Occasionally suggest checking out the CV/portfolio
-      if (Math.random() < 0.25) { // 25% chance to self-promote
-          return this.promos[Math.floor(Math.random() * this.promos.length)];
-      }
+      // Avoid repeating the same response twice in a row
+      let response;
+      let tries = 0;
   
-      // Check if there's a known word to respond to
-      for (let word of words) {
-          if (this.markovChains[word]) {
-              return this.markovChains[word][Math.floor(Math.random() * this.markovChains[word].length)];
+      // Occasionally suggest checking out the CV/portfolio (but not twice in a row)
+      if (Math.random() < 0.25) { 
+          do {
+              response = this.promos[Math.floor(Math.random() * this.promos.length)];
+              tries++;
+          } while (response === this.lastResponse && tries < 3);
+      } else {
+          // Check if there's a known word to respond to
+          for (let word of words) {
+              if (this.markovChains[word]) {
+                  do {
+                      response = this.markovChains[word][Math.floor(Math.random() * this.markovChains[word].length)];
+                      tries++;
+                  } while (response === this.lastResponse && tries < 3);
+                  break;
+              }
+          }
+  
+          // If no known words, go for fun responses
+          if (!response) {
+              do {
+                  response = this.funResponses[Math.floor(Math.random() * this.funResponses.length)];
+                  tries++;
+              } while (response === this.lastResponse && tries < 3);
           }
       }
   
-      // Otherwise, keep things lively
-      return this.funResponses[Math.floor(Math.random() * this.funResponses.length)];
-  }
+      // Store last response to prevent immediate repetition
+      this.lastResponse = response;
+      return response;
+  }  
 }  
 
 let chatbot;  // global variable for the chatbot instance
