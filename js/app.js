@@ -50,6 +50,7 @@ class TrashyChatbot {
     constructor() {
         this.memory = [];
         this.name = "Robo Phil"; // Assistant's name
+        this.userName = null; // Store user's name
         this.introduction = [
             `Hi, I’m ${this.name}, your assistant. Philipp is busy with *very important* things, so I’m in charge now!`,
             `Hello, I’m ${this.name}. Philipp told me to handle things while he works on *groundbreaking* projects. So... hi!`,
@@ -204,29 +205,28 @@ class TrashyChatbot {
     }
 
     getMarkovResponse(input) {
-        // Remove symbols (keep only letters, numbers, and spaces)
-        let sanitizedInput = input.replace(/[^a-zA-Z0-9\s]/g, "").toLowerCase();
-    
-        if (this.memory.length === 0) {
-            this.memory.push(sanitizedInput);
-            return this.introduction[Math.floor(Math.random() * this.introduction.length)];
-        }
-    
-        if (this.memory.length === 1) {
-            this.memory.push(sanitizedInput);
-            return this.smallTalk[Math.floor(Math.random() * this.smallTalk.length)];
-        }
-    
-        const words = sanitizedInput.split(/\s+/); // Split input into words
-        for (let word of words) {
-            if (this.markovChains[word]) {
-                return this.markovChains[word][Math.floor(Math.random() * this.markovChains[word].length)];
-            }
-        }
-    
-        return this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
-    }
-    
+      let sanitizedInput = input.replace(/[^a-zA-Z0-9\s]/g, "").toLowerCase();
+
+      // If it's the first message, ask for the user's name
+      if (this.memory.length === 0) {
+          this.memory.push(sanitizedInput);
+          return this.introduction[Math.floor(Math.random() * this.introduction.length)];
+      }
+
+      // If the chatbot is waiting for a name, store it
+      if (!this.userName) {
+          this.userName = input.trim().split(" ")[0]; // Take first word as the name
+          return `Nice to meet you, ${this.userName}! Let’s get talking.`;
+      }
+
+      this.memory.push(sanitizedInput);
+
+      // Randomly decide to include the user's name in responses
+      let useName = Math.random() < 0.3 && this.userName; // 30% chance to include name
+      let response = this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
+
+      return useName ? `${this.userName}, ${response}` : response;
+  }
 }
 
 let chatbot;  // global variable for the chatbot instance
