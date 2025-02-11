@@ -762,16 +762,18 @@ function attachOutports(device) {
 
   function initStaticChatbot(device, context) {
     const sectionBotSentences = [
-        "Welcome to Philipp's CV! It's like LinkedIn, but way cooler.",
+        "Welcome to Philipp's CV! It's like LinkedIn, but without the corporate cringe.",
+        "No 'thought leaders' or 'visionary disruptors' here. Just what actually matters.",
         "Philipp started with design. Now, he bends creative tools to his will.",
-        "Pixels, code, JUCE, RNBO—he speaks them all. Like a design wizard.",
+        "Print, Pixels, code, waveforms — he speaks them all. Like a design wizard.",
         "Need a slick interface? A mind-blowing experience? Done. Coffee? That's on you.",
         "110% effort. Because 100% is boring, and 120% is showing off.",
         "He doesn't just use creative tools—he *hacks* them. Ethically, of course.",
         "Philipp designs for eyes *and* ears. Custom sounds, glitchy beats, weird audio experiments.",
         "He builds tools that make music. And sometimes, they talk back.",
         "Thinking of hiring Philipp? Spoiler: Great choice. Keep scrolling for proof.",
-        "You're still reading? Nice. Imagine this level of dedication on your project."
+        "You're still reading? Nice. Imagine this level of dedication on your project.",
+        "You have reached the final boss: sending an email to Philipp."
     ];
 
     let currentSentenceIndex = 0;
