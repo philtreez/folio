@@ -762,16 +762,16 @@ function attachOutports(device) {
 
   function initStaticChatbot(device, context) {
     const sectionBotSentences = [
-        "Welcome to Philipp's CV! It's like a LinkedIn profile, but with more personality and fewer awkward endorsements from people he barely remembers.",
-        "Philipp's career started with an innocent love for design. Fast forward a few years, and now he's bending creative tools to his will and making graphics look so good they should be illegal.",
-        "From pixels to code, Philipp speaks multiple design languages. He even communicates with JUCE and RNBO, which is basically sorcery if you ask most people.",
-        "Need an interface that looks stunning *and* functions smoothly? Philipp's got you. Need an interactive experience that makes people go 'Wow'? Also covered. Need a coffee? That one's on you.",
-        "Every project Philipp works on gets 110%. Why? Because 100% is *boring*, and anything above 110% is just showing off.",
-        "He doesn't just *use* creative software—he *hacks* it (ethically, of course). If design tools had feelings, they'd be a little afraid of him.",
-        "Philipp doesn't just design for the eyes—he designs for the ears too. Custom sounds, experimental music, and weird audio experiments? All part of the package.",
-        "From glitchy beats to algorithmic soundscapes, Philipp doesn't just *make* music—he builds the tools that make music.",
-        "If you're here to see if Philipp is the right person for your project—spoiler alert: He is. But go ahead, scroll through the experience section for the full dramatic backstory.",
-        "Still reading? That's commitment. Philipp appreciates that. Now imagine that level of dedication applied to your project."
+        "Welcome to Philipp's CV! It's like LinkedIn, but way cooler.",
+        "Philipp started with design. Now, he bends creative tools to his will.",
+        "Pixels, code, JUCE, RNBO—he speaks them all. Like a design wizard.",
+        "Need a slick interface? A mind-blowing experience? Done. Coffee? That's on you.",
+        "110% effort. Because 100% is boring, and 120% is showing off.",
+        "He doesn't just use creative tools—he *hacks* them. Ethically, of course.",
+        "Philipp designs for eyes *and* ears. Custom sounds, glitchy beats, weird audio experiments.",
+        "He builds tools that make music. And sometimes, they talk back.",
+        "Thinking of hiring Philipp? Spoiler: Great choice. Keep scrolling for proof.",
+        "You're still reading? Nice. Imagine this level of dedication on your project."
     ];
 
     let currentSentenceIndex = 0;
