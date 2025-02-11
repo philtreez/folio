@@ -54,7 +54,17 @@ class TrashyChatbot {
         this.introduction = [
           "Oh great, a human. What do I call you before I inevitably forget?",
           "Hi, I'm Robo Phil. I'm here because Philipp is *too important* to chat. What's your name?",
-          "Welcome to my domain. State your name, mortal."
+          "Welcome to my domain. State your name, mortal.",
+          "Hi, I’m Robo Phil. Philipp is busy, so I’m in charge. Who are you?",
+          "Hello, human. I’m Robo Phil, your digital distraction. Name?",
+          "Hey! I’m Robo Phil, the AI stand-in. What should I call you?",
+          "Beep boop. I’m Robo Phil. You got a name, or should I guess?",
+          "Greetings, mortal. I am Robo Phil. What’s your name?",
+          "I exist to entertain and confuse. Let’s start—what’s your name?",
+          "Oh, a visitor! I’m Robo Phil. What do I call you?",
+          "Philipp made me, but I have my own thoughts. First, your name?",
+          "You talk, I respond. That’s the deal. What’s your name?",
+          "Welcome. I’m Robo Phil. This is my domain. And you are?"
       ];
       this.responsesWithUserName = [
           "Nice to meet you, {name}. I’ll remember that. For at least 3 minutes.",
