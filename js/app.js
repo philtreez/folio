@@ -52,27 +52,33 @@ class TrashyChatbot {
         this.name = "Robo Phil"; // Assistant's name
         this.userName = null; // Store user's name
         this.introduction = [
-            "Hi, I'm Robo Phil, your assistant. But enough about me—what’s your name?",
-            "Hello, I’m Robo Phil. Philipp is busy with *very important* things, so I’m in charge. But first—what should I call you?",
-            "Hey! I’m Robo Phil, the stand-in for Philipp. Before we continue, what’s your name?"
-        ];
-        this.smallTalk = [
-            "How’s your day? On a scale from ‘meh’ to ‘Philipp designing at 3AM’?",
-            "If you had a personal assistant like me, what would you make them do?",
-            "Do you like music? If yes, please tell me you have good taste.",
-            "What’s your favorite snack? Asking for science.",
-        ];
-        this.responsesWithUserName = [
-            "Nice to meet you, {name}! Let’s get talking.",
-            "{name}, I like that. Now tell me something interesting!",
-            "Hey {name}, what’s on your mind?",
-            "{name}, you seem cool. But are you *portfolio-checking* cool?"
-        ];
-        this.promos = [
-            "By the way, did you check out Philipp’s CV? Might be worth a look!",
-            "Oh, and don’t miss the portfolio section. It’s full of cool stuff.",
-            "Fun fact: Philipp makes things. You should see them in the portfolio!",
-            "You’re having fun, right? Imagine how fun the CV section is. Okay, maybe not *that* fun, but still."
+          "Oh great, a human. What do I call you before I inevitably forget?",
+          "Hi, I'm Robo Phil. I'm here because Philipp is *too important* to chat. What's your name?",
+          "Welcome to my domain. State your name, mortal."
+      ];
+      this.responsesWithUserName = [
+          "Nice to meet you, {name}. I’ll remember that. For at least 3 minutes.",
+          "Okay, {name}, let’s make this conversation slightly less pointless.",
+          "Wow, {name}, great name. I once met a printer with the same name.",
+          "Ah, {name}, the legendary being who decided to chat with *me* instead of doing something productive."
+      ];
+      this.promos = [
+          "You could keep talking to me, or you could check out Philipp’s CV and feel *deeply inadequate*.",
+          "Have you considered looking at Philipp’s portfolio? Or are you just here to emotionally drain me?",
+          "The portfolio section is nice. No existential dread there. Unlike here.",
+          "Go check out Philipp’s work. Unless you enjoy wasting your time with a chatbot. No judgment."
+      ];
+      this.funResponses = [
+          "Did you know staring at a screen too long turns you into a *corporate drone*? Keep going!",
+          "If I had emotions, I’d be deeply concerned about how much time you’re spending here.",
+          "They say AI will replace humans, but honestly, I wouldn’t want your job.",
+          "What’s the last thing you regretted? No reason. Just curious.",
+          "Ever just sit and wonder… why you’re talking to a chatbot instead of doing literally anything else?",
+          "You know what’s fun? Reading Philipp’s CV. You know what’s *funnier*? Me.",
+          "Let’s play a game: You ask me something, and I respond in a way that makes you question your life choices.",
+          "You ever wake up and think, ‘Wow, today is the day I become unstoppable’? Me neither.",
+          "Would you rather fight 100 duck-sized horses or 1 horse-sized duck? Pick carefully.",
+          "If you had to delete one app from your phone forever, which would it be? (Say LinkedIn. Do it.)"
         ];
         this.markovChains = {
             "name": [
@@ -216,26 +222,28 @@ class TrashyChatbot {
 
     getMarkovResponse(input) {
       let sanitizedInput = input.replace(/[^a-zA-Z0-9\s]/g, "").toLowerCase();
+      let words = sanitizedInput.split(/\s+/);
 
-      // If it's the first message, ask for the user's name
-      if (this.memory.length === 0) {
-          this.memory.push(sanitizedInput);
-          return this.introduction[Math.floor(Math.random() * this.introduction.length)];
-      }
-
-      // If the chatbot is waiting for a name, store it
+      // If the user has no name yet, ask for it
       if (!this.userName) {
-          this.userName = input.trim().split(" ")[0]; // Take first word as the name
-          return `Nice to meet you, ${this.userName}! Let’s get talking.`;
+          this.userName = words[0]; // Take the first word as the name
+          return this.responsesWithUserName[Math.floor(Math.random() * this.responsesWithUserName.length)].replace("{name}", this.userName);
       }
 
-      this.memory.push(sanitizedInput);
+      // Occasionally suggest checking out the CV/portfolio
+      if (Math.random() < 0.25) { // 25% chance to self-promote
+          return this.promos[Math.floor(Math.random() * this.promos.length)];
+      }
 
-      // Randomly decide to include the user's name in responses
-      let useName = Math.random() < 0.3 && this.userName; // 30% chance to include name
-      let response = this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
+      // Check if there's a known word to respond to
+      for (let word of words) {
+          if (this.markovChains[word]) {
+              return this.markovChains[word][Math.floor(Math.random() * this.markovChains[word].length)];
+          }
+      }
 
-      return useName ? `${this.userName}, ${response}` : response;
+      // Otherwise, keep things lively
+      return this.funResponses[Math.floor(Math.random() * this.funResponses.length)];
   }
 }
 
