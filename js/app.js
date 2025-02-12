@@ -582,8 +582,8 @@ async function sendTextToRNBO(device, text, context) {
     console.log(`🗣 Final Phoneme Sequence Sent to RNBO:`, phonemes);
 
     // Define durations
-    const vowelDuration = 160;
-    const consonantDuration = 80;
+    const vowelDuration = 180;
+    const consonantDuration = 65;
     const pauseDuration = 160;
 
     let timeOffset = 0;
