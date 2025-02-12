@@ -45,7 +45,8 @@ const phonemeDictionary = {
     "speech": ["S", "P", "IY", "CH"],
     "I’m": ["EY", "M"],
     "I'm": ["EY", "M"],
-    "haven’t": ["HH", "AH", "F", "AH", "N", "T"]
+    "haven’t": ["HH", "AH", "F", "AH", "N", "T"],
+    "don’t": ["D", "AH", "N", "T"]
     // Weitere Wörter nach Bedarf hinzufügen
 };
 
@@ -585,7 +586,7 @@ async function sendTextToRNBO(device, text, context) {
     console.log(`🗣 Final Phoneme Sequence Sent to RNBO:`, phonemes);
 
     // Define durations
-    const vowelDuration = 180;
+    const vowelDuration = 130;
     const consonantDuration = 75;
     const pauseDuration = 200;
 
