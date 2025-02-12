@@ -43,6 +43,8 @@ const phonemeDictionary = {
     "computer": ["K", "AH", "M", "P", "Y", "UW", "T", "ER"],
     "phoneme": ["F", "OW", "N", "IY", "M"],
     "speech": ["S", "P", "IY", "CH"],
+    "I’m": ["EY", "M"],
+    "I'm": ["EY", "M"]
     // Weitere Wörter nach Bedarf hinzufügen
 };
 
