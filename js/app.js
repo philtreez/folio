@@ -588,7 +588,7 @@ async function sendTextToRNBO(device, text, context) {
 
     // Define durations
     const vowelDuration = 130;
-    const consonantDuration = 85;
+    const consonantDuration = 130;
     const pauseDuration = 160;
 
     let timeOffset = 0;
