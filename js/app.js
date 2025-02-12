@@ -589,7 +589,7 @@ async function sendTextToRNBO(device, text, context) {
     // Define durations
     const vowelDuration = 130;
     const consonantDuration = 75;
-    const pauseDuration = 200;
+    const pauseDuration = 100;
 
     let timeOffset = 0;
     phonemes.forEach((speechValue, index) => {
