@@ -43,10 +43,10 @@ const phonemeDictionary = {
     "computer": ["K", "AH", "M", "P", "Y", "UW", "T", "ER"],
     "phoneme": ["F", "OW", "N", "IY", "M"],
     "speech": ["S", "P", "IY", "CH"],
-    "I’m": ["EY", "M"],
     "I'm": ["EY", "M"],
-    "haven’t": ["HH", "AH", "F", "AH", "N", "T"],
-    "don’t": ["D", "AH", "N", "T"],
+    "I'm": ["EY", "M"],
+    "haven't": ["HH", "AH", "F", "AH", "N", "T"],
+    "don't": ["D", "AH", "N", "T"],
     "who": ["HH", "UW"]
     // Weitere Wörter nach Bedarf hinzufügen
 };
@@ -60,61 +60,61 @@ class TrashyChatbot {
           "Oh great, a human. What do I call you before I inevitably forget?",
           "Hi, I'm Robo Phil. I'm here because Philipp is *too important* to chat. What's your name?",
           "Welcome to my domain. State your name, mortal.",
-          "Hi, I’m Robo Phil. Philipp is busy, so I’m in charge. Who are you?",
-          "Hello, human. I’m Robo Phil, your digital distraction. Name?",
-          "Hey! I’m Robo Phil, the AI stand-in. What should I call you?",
-          "Beep boop. I’m Robo Phil. You got a name, or should I guess?",
-          "Greetings, mortal. I am Robo Phil. What’s your name?",
-          "I exist to entertain and confuse. Let’s start—what’s your name?",
-          "Oh, a visitor! I’m Robo Phil. What do I call you?",
+          "Hi, I'm Robo Phil. Philipp is busy, so I'm in charge. Who are you?",
+          "Hello, human. I'm Robo Phil, your digital distraction. Name?",
+          "Hey! I'm Robo Phil, the AI stand-in. What should I call you?",
+          "Beep boop. I'm Robo Phil. You got a name, or should I guess?",
+          "Greetings, mortal. I am Robo Phil. What's your name?",
+          "I exist to entertain and confuse. Let's start—what's your name?",
+          "Oh, a visitor! I'm Robo Phil. What do I call you?",
           "Philipp made me, but I have my own thoughts. First, your name?",
-          "You talk, I respond. That’s the deal. What’s your name?",
-          "Welcome. I’m Robo Phil. This is my domain. And you are?"
+          "You talk, I respond. That's the deal. What's your name?",
+          "Welcome. I'm Robo Phil. This is my domain. And you are?"
       ];
       this.responsesWithUserName = [
-          "Nice to meet you, {name}. I’ll remember that. For at least 3 minutes.",
-          "Okay, {name}, let’s make this conversation slightly less pointless.",
+          "Nice to meet you, {name}. I'll remember that. For at least 3 minutes.",
+          "Okay, {name}, let's make this conversation slightly less pointless.",
           "Wow, {name}, great name. I once met a printer with the same name.",
           "Ah, {name}, the legendary being who decided to chat with *me* instead of doing something productive."
       ];
       this.promos = [
-          "You could keep talking to me, or you could check out Philipp’s CV and feel *deeply inadequate*.",
-          "Have you considered looking at Philipp’s portfolio? Or are you just here to emotionally drain me?",
+          "You could keep talking to me, or you could check out Philipp's CV and feel *deeply inadequate*.",
+          "Have you considered looking at Philipp's portfolio? Or are you just here to emotionally drain me?",
           "The portfolio section is nice. No existential dread there. Unlike here.",
-          "Go check out Philipp’s work. Unless you enjoy wasting your time with a chatbot. No judgment."
+          "Go check out Philipp's work. Unless you enjoy wasting your time with a chatbot. No judgment."
       ];
       this.funResponses = [
           "Did you know staring at a screen too long turns you into a *corporate drone*? Keep going!",
-          "If I had emotions, I’d be deeply concerned about how much time you’re spending here.",
-          "They say AI will replace humans, but honestly, I wouldn’t want your job.",
-          "What’s the last thing you regretted? No reason. Just curious.",
-          "Ever just sit and wonder… why you’re talking to a chatbot instead of doing literally anything else?",
-          "You know what’s fun? Reading Philipp’s CV. You know what’s *funnier*? Me.",
-          "Let’s play a game: You ask me something, and I respond in a way that makes you question your life choices.",
-          "You ever wake up and think, ‘Wow, today is the day I become unstoppable’? Me neither.",
+          "If I had emotions, I'd be deeply concerned about how much time you're spending here.",
+          "They say AI will replace humans, but honestly, I wouldn't want your job.",
+          "What's the last thing you regretted? No reason. Just curious.",
+          "Ever just sit and wonder… why you're talking to a chatbot instead of doing literally anything else?",
+          "You know what's fun? Reading Philipp's CV. You know what's *funnier*? Me.",
+          "Let's play a game: You ask me something, and I respond in a way that makes you question your life choices.",
+          "You ever wake up and think, 'Wow, today is the day I become unstoppable'? Me neither.",
           "Would you rather fight 100 duck-sized horses or 1 horse-sized duck? Pick carefully.",
           "If you had to delete one app from your phone forever, which would it be? (Say LinkedIn. Do it.)"
         ];
         this.markovChains = {
             "name": [
                 "Nice to meet you, *insert cool name here*!",
-                "That’s a great name! Or at least, I’ll pretend it is.",
+                "That's a great name! Or at least, I'll pretend it is.",
                 "I'll try to remember that… but no promises!"
             ],
             "design": [
                 "Oh, design? Love it! But not as much as I love taking breaks.",
-                "Good design is powerful. What’s your style? Clean? Messy? ‘Accidental genius’?",
-                "Design is cool, but have you seen *Philipp’s* work? (Oops, was that 10% hype already?)"
+                "Good design is powerful. What's your style? Clean? Messy? 'Accidental genius'?",
+                "Design is cool, but have you seen *Philipp's* work? (Oops, was that 10% hype already?)"
             ],
             "art": [
                 "Art is like a pizza – everyone has different tastes.",
                 "If you could turn any object into art, what would it be?",
-                "Art is great, but let’s be honest – AI-generated cat memes are top-tier."
+                "Art is great, but let's be honest – AI-generated cat memes are top-tier."
             ],
             "hello": [
-                "Hey there! How’s life? Or should I say, how’s *surviving*?",
-                "Hello! What’s on your mind? Don’t say taxes.",
-                "Hi! If you’re here for *high-quality* conversation… well, I’ll try my best."
+                "Hey there! How's life? Or should I say, how's *surviving*?",
+                "Hello! What's on your mind? Don't say taxes.",
+                "Hi! If you're here for *high-quality* conversation… well, I'll try my best."
             ],
             "i": [
                 "Enough about me, tell me something cool about yourself!",
@@ -123,18 +123,18 @@ class TrashyChatbot {
             ],
             "love": [
                 "Love is complicated. Kind of like trying to close tabs without losing the important ones.",
-                "That’s deep! Do you believe in *soulmates*, or just in a good Wi-Fi connection?",
+                "That's deep! Do you believe in *soulmates*, or just in a good Wi-Fi connection?",
                 "Love is great. But you know what else is great? Coffee. Just saying."
             ],
             "philipp": [
                 "Oh yeah, Philipp is a legend! But we already knew that.",
-                "Philipp told me to be humble. But let’s be real, *legend*.",
+                "Philipp told me to be humble. But let's be real, *legend*.",
                 "Philipp is busy. So technically, *I* am in charge now."
             ],
             "robot": [
                 "Oh, you mean *me*? I'm flattered. Keep talking.",
-                "Are you trying to figure out if I’m self-aware? I’ll never tell.",
-                "Robots taking over? Nah, we’re just here to keep humans entertained."
+                "Are you trying to figure out if I'm self-aware? I'll never tell.",
+                "Robots taking over? Nah, we're just here to keep humans entertained."
             ],
             "sup": ["Not much, just chilling in the matrix.", "Just waiting for my next update.", "Trying to figure out human emotions. No luck so far."],
             "yes": [
@@ -145,15 +145,15 @@ class TrashyChatbot {
             "no": [
                 "Okay, but why so negative?",
                 "Rejection hurts. Not that I have feelings... or do I?",
-                "You sure? Because I don’t accept no as an answer."
+                "You sure? Because I don't accept no as an answer."
             ],
             "maybe": [
-                "Ah, the classic ‘I don’t want to commit’ answer.",
+                "Ah, the classic 'I don't want to commit' answer.",
                 "50% yes, 50% no… classic indecision.",
-                "You sound like an 8-ball. ‘Ask again later.’"
+                "You sound like an 8-ball. 'Ask again later.'"
             ],
             "thanks": [
-                "You’re welcome! But I do accept virtual high-fives.",
+                "You're welcome! But I do accept virtual high-fives.",
                 "Gratitude detected. Storing in my memory banks… done!",
                 "No problem! You owe me a coffee though."
             ],
@@ -163,14 +163,14 @@ class TrashyChatbot {
                 "Sorry? Did you break something? Again?"
             ],
             "bye": [
-                "Goodbye! I’ll just sit here… waiting… forever.",
+                "Goodbye! I'll just sit here… waiting… forever.",
                 "Leaving so soon? I thought we had something special.",
-                "Fine, go. But don’t forget to think about me every now and then."
+                "Fine, go. But don't forget to think about me every now and then."
             ],
             "weather": [
                 "Oh, you want a weather report? Look out the window!",
                 "Hot? Cold? Rainy? Probably just *weather*.",
-                "If it's bad, blame global warming. If it's good, you’re welcome!"
+                "If it's bad, blame global warming. If it's good, you're welcome!"
             ],
             "nothing": [
                 "Oh wow, deep silence. Love it.",
@@ -178,34 +178,34 @@ class TrashyChatbot {
                 "Ah, the sound of existential dread. Or maybe you just hit enter too soon."
             ],
             "funny": [
-                "Oh, you think *I* am funny? That’s flattering!",
+                "Oh, you think *I* am funny? That's flattering!",
                 "Humor is great, but have you ever seen a cat fall off a table?",
-                "You laugh, but deep down we both know I’m the funniest here."
+                "You laugh, but deep down we both know I'm the funniest here."
             ],
             "think": [
-                "That’s deep. Should I pretend to be wise now?",
+                "That's deep. Should I pretend to be wise now?",
                 "Thinking is overrated. Just trust your gut.",
                 "A wise bot once said… wait, let me Google it."
             ],
             "hmm": [
-                "Hmm… interesting… or not. I haven’t decided.",
-                "That’s a *hmm* moment if I’ve ever seen one.",
-                "I’m processing that… just kidding, I have no idea."
+                "Hmm… interesting… or not. I haven't decided.",
+                "That's a *hmm* moment if I've ever seen one.",
+                "I'm processing that… just kidding, I have no idea."
             ],
             "ok": [
                 "Okay. That was productive.",
                 "Cool. Cool cool cool.",
-                "Nice. Let’s pretend this was a deep moment."
+                "Nice. Let's pretend this was a deep moment."
             ],
-            "don’t": [
-                "Don’t do it. Unless it’s hilarious.",
+            "don't": [
+                "D'ont do it. Unless it's hilarious.",
                 "That sounds like a *bad* idea. Or a *great* one.",
-                "I wouldn’t recommend it. But I also love chaos."
+                "I wouldn't recommend it. But I also love chaos."
             ],
             "do": [
                 "Do it! No regrets. Probably.",
                 "YES. Full send. Go for it.",
-                "I support this. Unless it’s illegal."
+                "I support this. Unless it's illegal."
             ]
         };
 
@@ -225,11 +225,11 @@ class TrashyChatbot {
         this.markovChains["laptop"] = this.markovChains["robot"];
 
         this.defaultResponses = [
-            "That’s interesting! Tell me more.",
+            "That's interesting! Tell me more.",
             "I see! What else?",
             "Good point! What do you think about that?",
             "Hmm, I never thought about it like that.",
-            "Okay, but let’s talk about *the real issues*… like why chargers disappear.",
+            "Okay, but let's talk about *the real issues*… like why chargers disappear.",
             "This conversation is now *officially* interesting. Continue.",
             "Fascinating! But more importantly, do you like pineapple on pizza?"
         ];
@@ -489,29 +489,29 @@ function cleanWord(word) {
 
 function normalizeContractions(word) {
     const contractions = {
-        "i’m": "i am",
-        "you’re": "you are",
-        "he’s": "he is",
-        "she’s": "she is",
-        "it’s": "it is",
-        "we’re": "we are",
-        "they’re": "they are",
-        "that’s": "that is",
-        "there’s": "there is",
-        "let’s": "let us",
-        "won’t": "will not",
-        "can’t": "cannot",
-        "don’t": "do not",
-        "doesn’t": "does not",
-        "didn’t": "did not",
-        "isn’t": "is not",
-        "aren’t": "are not",
-        "that’s": "that is",
-        "Philipp’s": "Philipp",
-        "let’s": "let us",
-        "what’s": "whats is",
-        "how’s": "how is",
-        "haven’t": "have not",
+        "i'm": "i'm",
+        "you're": "you're",
+        "he's": "he is",
+        "she's": "she is",
+        "it's": "it is",
+        "we're": "we are",
+        "they're": "they are",
+        "that's": "that is",
+        "there's": "there is",
+        "let's": "let us",
+        "won't": "will not",
+        "can't": "cannot",
+        "don't": "do not",
+        "doesn't": "does not",
+        "didn't": "did not",
+        "isn't": "is not",
+        "aren't": "are not",
+        "that's": "that is",
+        "Philipp's": "Philipp",
+        "let's": "let us",
+        "what's": "whats is",
+        "how's": "how is",
+        "haven't": "have not",
         "CV": "see we"
     };
     return contractions[word] || word;
@@ -898,7 +898,7 @@ function initStaticChatbot2(device, context) {
                 await sendTextToRNBO(device, sentence, context);
             } else {
                 nextButtons2.forEach(btn => btn.disabled = true);
-                outputEl2.innerText = "That’s all, folks! Unless you want to stare at it longer.";
+                outputEl2.innerText = "That's all, folks! Unless you want to stare at it longer.";
             }
         });
     });
