@@ -46,7 +46,8 @@ const phonemeDictionary = {
     "I’m": ["EY", "M"],
     "I'm": ["EY", "M"],
     "haven’t": ["HH", "AH", "F", "AH", "N", "T"],
-    "don’t": ["D", "AH", "N", "T"]
+    "don’t": ["D", "AH", "N", "T"],
+    "who": ["HH", "UW"]
     // Weitere Wörter nach Bedarf hinzufügen
 };
 
