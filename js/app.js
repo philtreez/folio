@@ -506,7 +506,8 @@ function normalizeContractions(word) {
         "let’s": "let us",
         "what’s": "whats is",
         "how’s": "how is",
-        "haven’t": "have not"
+        "haven’t": "have not",
+        "CV": "see we"
     };
     return contractions[word] || word;
 }
