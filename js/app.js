@@ -44,7 +44,8 @@ const phonemeDictionary = {
     "phoneme": ["F", "OW", "N", "IY", "M"],
     "speech": ["S", "P", "IY", "CH"],
     "I’m": ["EY", "M"],
-    "I'm": ["EY", "M"]
+    "I'm": ["EY", "M"],
+    "haven’t": ["HH", "AH", "F", "AH", "N", "T"]
     // Weitere Wörter nach Bedarf hinzufügen
 };
 
